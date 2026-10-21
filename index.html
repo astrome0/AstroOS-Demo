@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AstroOS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 4 42 24 24 44 6 24z' fill='none' stroke='%2346c36f' stroke-width='3.4' stroke-linejoin='round'/%3E%3Cpath d='M24 14 33 32h-5.4L24 24.6 20.4 32H15z' fill='%2346c36f'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/boot.css">
+<link rel="stylesheet" href="css/lock.css">
+<link rel="stylesheet" href="css/desktop.css">
+<link rel="stylesheet" href="css/taskbar.css">
+<link rel="stylesheet" href="css/window.css">
+<link rel="stylesheet" href="css/apps.css">
+<link rel="stylesheet" href="css/apps2.css">
+<link rel="stylesheet" href="css/ai.css">
+<link rel="stylesheet" href="css/browser.css">
+<link rel="stylesheet" href="css/nova-domu.css">
+<link rel="stylesheet" href="css/paint.css">
+<link rel="stylesheet" href="css/astro3d.css">
+<link rel="stylesheet" href="css/editor.css">
+<link rel="stylesheet" href="css/hry.css">
+<link rel="stylesheet" href="css/hudba.css">
+<link rel="stylesheet" href="css/diktafon.css">
+<link rel="stylesheet" href="css/posta.css">
+<link rel="stylesheet" href="css/obchod.css">
+<link rel="stylesheet" href="css/obchodapky.css">
+<link rel="stylesheet" href="css/aplikace.css">
+<link rel="stylesheet" href="css/pocasi.css">
+<link rel="stylesheet" href="css/widgety.css">
+<link rel="stylesheet" href="css/defender.css">
+<link rel="stylesheet" href="css/ovladace.css">
+<link rel="stylesheet" href="css/webaplikace.css">
+<link rel="stylesheet" href="css/pismo.css">
+<link rel="stylesheet" href="css/tabulky.css">
+<link rel="stylesheet" href="css/prezentace.css">
+<link rel="stylesheet" href="css/nakaza.css">
+<link rel="stylesheet" href="css/oobe.css">
+<link rel="stylesheet" href="css/aktivace.css">
+<link rel="stylesheet" href="css/demo.css">
+<link rel="stylesheet" href="css/minecraft.css">
+</head>
+<body>
+
+<!-- vrstva: pozadí (sdílí ho zámek i plocha) -->
+<div id="wallpaper" class="wallpaper"></div>
+<div id="wallpaper-dim" class="wallpaper-dim"></div>
+
+<!-- vrstva: plocha -->
+<div id="desktop" class="desktop hidden">
+  <div id="icons" class="icon-layer"></div>
+  <div id="widgety" class="widget-layer"></div>
+  <div id="band" class="select-band hidden"></div>
+  <div id="windows" class="window-layer"></div>
+  <div id="taskbar-root"></div>
+</div>
+
+<!-- vrstva: zámek / přihlášení -->
+<div id="lock" class="lock hidden"></div>
+
+<!-- vrstva: boot -->
+<div id="boot" class="boot"></div>
+
+<!-- vrstva: overlaye (kontextová menu, panely, toasty) -->
+<div id="overlay" class="overlay-layer"></div>
+<div id="toasts" class="toast-layer"></div>
+<div id="fader" class="fader"></div>
+
+<!-- ukázková verze: anglicky schválně, autorská práva musí pochopit každý (css/demo.css) -->
+<div class="demo-pruh" translate="no">AstroOS DEMO · Not a finished product · © 2026 AstroMeo · All rights reserved</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+AstroOS Demo
+Copyright (c) 2026 AstroMeo. All rights reserved.
+
+This repository contains a limited DEMO version of AstroOS. It is not the full
+product and it is not open source.
+
+All code, graphics, user interface, texts and the "AstroMeo Abstract" wallpapers
+(img/*.webp) are the original work of AstroMeo and are protected by copyright.
+
+The repository is published for VIEWING AND TRYING OUT ONLY.
+
+You MAY:
+  - open and use the demo in a web browser,
+  - read the source code on GitHub.
+
+You MAY NOT, without prior written permission from AstroMeo:
+  - copy, modify, merge, translate or create derivative works of the code or any part of it,
+  - distribute, republish, host, sublicense or sell the code or any part of it,
+  - use the wallpapers, graphics or any other files outside AstroOS,
+  - use anything from this repository in another project, commercial or non-commercial,
+  - remove or alter any copyright notice, watermark or signature.
+
+No license or other right is granted, expressly or by implication, except as stated above.
+Forking on GitHub is only permitted as required by the GitHub Terms of Service and does not
+grant any of the rights listed above.
+
+App icons in img/ikony may come from third parties and belong to their respective owners.
+
+THE DEMO IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
