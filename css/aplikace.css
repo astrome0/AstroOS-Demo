@@ -1,0 +1,107 @@
+/* AstroOS — vlastní aplikace: okno s rámem, instalátor, drobnosti v Editoru a Nově */
+
+/* ---------- okno aplikace ---------- */
+.app-hostitel { position: relative; height: 100%; background: var(--bg-1); }
+.app-ramec { display: block; width: 100%; height: 100%; border: 0; background: var(--bg-1); }
+/* při tažení okna by rám spolkl myš */
+.win.moving .app-ramec, .win.sizing .app-ramec { pointer-events: none; }
+
+.app-nacitani {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  padding: 24px; text-align: center;
+  background: var(--bg-1); color: var(--txt-2); font-size: 13px;
+}
+.app-nacitani[hidden] { display: none; }
+.app-nacitani b { color: var(--txt); font-size: 15px; font-weight: 600; }
+.app-toc {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 3px solid var(--stroke-hi); border-top-color: var(--accent);
+  animation: app-toc 0.8s linear infinite;
+}
+@keyframes app-toc { to { transform: rotate(360deg); } }
+.app-chyba-ic { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--hover); color: var(--txt-2); }
+.app-chyba-ic .i { width: 24px; height: 24px; }
+.app-chyba-akce { display: flex; gap: 8px; margin-top: 6px; }
+
+/* ---------- instalátor ---------- */
+.ins { display: flex; flex-direction: column; gap: 14px; height: 100%; overflow: auto; padding: 22px 24px; }
+.ins-hlava { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--stroke); }
+.ins-hlava b { display: block; font-size: 18px; font-weight: 600; }
+.ins-hlava span { font-size: 12px; color: var(--txt-3); font-family: var(--mono); }
+.ins-glyph {
+  width: 64px; height: 64px; flex: none;
+  display: grid; place-items: center;
+  border-radius: var(--r-l); color: #fff;
+  box-shadow: var(--shadow-m);
+  transition: background 0.2s;
+}
+.ins-glyph .i { width: 34px; height: 34px; }
+
+.ins-radek { display: grid; grid-template-columns: 92px 1fr; align-items: center; gap: 12px; }
+.ins-popisek { font-size: 12.5px; color: var(--txt-2); }
+.ins-pole {
+  width: 100%; height: 34px; padding: 0 11px;
+  border: 1px solid var(--stroke); border-radius: var(--r-s);
+  background: var(--pole); color: var(--txt); font: inherit; font-size: 13px; outline: none;
+}
+.ins-pole:focus { border-color: var(--accent); }
+select.ins-pole option { background: var(--bg-1); }
+
+.ins-ikony { display: grid; grid-template-columns: repeat(auto-fill, minmax(34px, 1fr)); gap: 4px; }
+.ins-ikona {
+  height: 34px; display: grid; place-items: center;
+  border: 1px solid transparent; border-radius: var(--r-s);
+  background: var(--hover); color: var(--txt-2); cursor: pointer;
+}
+.ins-ikona .i { width: 18px; height: 18px; }
+.ins-ikona:hover { background: var(--hover-2); color: var(--txt); }
+.ins-ikona.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+.ins-barvy { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ins-barva {
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+.ins-barva.on { border-color: var(--txt); }
+.ins-vlastni { width: 30px; height: 30px; padding: 0; border: 0; background: none; cursor: pointer; }
+
+.ins-velikost { display: flex; align-items: center; gap: 8px; color: var(--txt-3); }
+.ins-velikost .ins-pole { width: 90px; }
+.ins-jednotka { font-size: 12px; }
+
+.ins-volby { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-left: 104px; font-size: 13px; }
+.ins-volby label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.ins-volby input { accent-color: var(--accent); width: 15px; height: 15px; }
+
+.ins-pozn {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 11px 13px; margin: 0;
+  border-radius: var(--r-m); background: var(--sunk);
+  font-size: 12px; line-height: 1.5; color: var(--txt-2);
+}
+.ins-pozn .i { width: 17px; height: 17px; flex: none; color: var(--accent); margin-top: 1px; }
+.ins-akce { display: flex; justify-content: flex-end; gap: 8px; margin-top: auto; padding-top: 6px; }
+
+/* ---------- Obchod: záložka Aplikace ---------- */
+.ob-vyzva {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 18px 20px; margin-bottom: 22px;
+  border-radius: var(--r-l); border: 1px solid var(--stroke);
+  background: linear-gradient(120deg, var(--accent-soft), transparent 70%);
+}
+.ob-vyzva > div:nth-child(2) { flex: 1; min-width: 220px; }
+.ob-vyzva h3 { font-size: 15px; font-weight: 600; color: var(--txt); }
+.ob-vyzva p { margin-top: 4px; font-size: 12.5px; line-height: 1.5; color: var(--txt-2); }
+.ob-vyzva-ic { width: 46px; height: 46px; flex: none; display: grid; place-items: center; border-radius: 13px; background: var(--accent); color: var(--accent-text); }
+.ob-vyzva-ic .i { width: 24px; height: 24px; }
+.ob-vyzva-akce { display: flex; gap: 8px; }
+.ob-akce { flex-wrap: wrap; }
+.ob-nadpis { margin: 4px 0 12px; font-size: 13px; font-weight: 600; color: var(--txt-2); }
+.ob-mrizka + .ob-nadpis { margin-top: 24px; }
+
+/* ---------- Editor a Nova ---------- */
+.ce-aplikace { color: var(--accent); }
+.ce-aplikace[hidden] { display: none; }
+.nb-soubor-akce { margin-left: auto; display: flex; gap: 8px; flex: none; }
+.nb-soubor-hlava .nb-soubor-akce .btn { margin-left: 0; }

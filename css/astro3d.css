@@ -1,0 +1,306 @@
+/* AstroOS — Astro 3D */
+
+.b3 { height: 100%; display: flex; flex-direction: column; background: var(--okno); user-select: none; }
+.b3:focus, .b3-view:focus { outline: none; }
+
+/* ---------- horní lišta ---------- */
+.b3-lista {
+  flex: none;
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--stroke);
+  background: var(--glass-hi);
+}
+.b3-grp { display: flex; align-items: center; gap: 2px; padding-right: 8px; border-right: 1px solid var(--stroke); }
+.b3-spacer { flex: 1; }
+.b3-menu {
+  height: 28px; padding: 0 10px;
+  border-radius: var(--r-s);
+  font-size: 12.5px; color: var(--txt-2);
+}
+.b3-menu:hover { background: var(--hover); color: var(--txt); }
+.b3-btn {
+  display: flex; align-items: center; gap: 6px;
+  height: 28px; padding: 0 9px;
+  border-radius: var(--r-s);
+  font-size: 12px; color: var(--txt-2);
+  transition: background .14s, color .14s;
+}
+.b3-btn .i { width: 16px; height: 16px; }
+.b3-btn:hover { background: var(--hover); color: var(--txt); }
+.b3-btn:disabled { opacity: .35; pointer-events: none; }
+.b3-btn.on { background: var(--accent-soft); color: var(--accent); }
+.b3-btn.ic { width: 28px; padding: 0; justify-content: center; }
+.b3-render { background: linear-gradient(145deg, #f5a04a, #c4581f); color: #fff; padding: 0 12px; font-weight: 600; }
+.b3-render:hover { filter: brightness(1.1); background: linear-gradient(145deg, #f5a04a, #c4581f); color: #fff; }
+
+.b3-rezim {
+  display: flex; align-items: center; gap: 7px;
+  height: 28px; padding: 0 11px;
+  border-radius: var(--r-s);
+  font-size: 12px; font-weight: 600; color: var(--txt-2);
+  background: var(--hover);
+}
+.b3-rezim .i { width: 16px; height: 16px; }
+.b3-rezim:hover { color: var(--txt); }
+.b3-rezim.on { background: rgba(232, 135, 58, .22); color: #f0a35c; }
+
+/* ---------- hlavní plocha ---------- */
+.b3-hlavni { flex: 1; min-height: 0; display: flex; }
+
+.b3-nastroje {
+  flex: none; width: 44px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 0;
+  background: #2b2c2e;
+  border-right: 1px solid #1c1d1f;
+}
+.b3-nastroje-grp { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.b3-oddel { width: 24px; height: 1px; background: rgba(255, 255, 255, .14); margin: 4px 0; }
+.b3-nastroj {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 6px;
+  color: #c9cdd2;
+}
+.b3-nastroj .i { width: 18px; height: 18px; }
+.b3-nastroj:hover { background: rgba(255, 255, 255, .08); color: #fff; }
+.b3-nastroj.on { background: #4d73b8; color: #fff; }
+
+.b3-view { flex: 1; min-width: 0; position: relative; overflow: hidden; background: #303032; touch-action: none; }
+.b3-view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.b3-ov { pointer-events: none; }
+
+/* ---------- pravý panel ---------- */
+.b3-panel {
+  flex: none; width: 272px;
+  display: flex; flex-direction: column;
+  border-left: 1px solid var(--stroke);
+  background: var(--okno);
+  min-height: 0;
+}
+.b3-sekce { flex: none; display: flex; flex-direction: column; max-height: 38%; border-bottom: 1px solid var(--stroke); }
+.b3-nadpis {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 12px 6px;
+  font-size: 11.5px; font-weight: 600; letter-spacing: .02em;
+  color: var(--txt-2);
+}
+.b3-nadpis .i { width: 14px; height: 14px; color: var(--txt-3); }
+
+.b3-seznam { overflow: auto; padding: 0 6px 8px; }
+.b3-ob {
+  display: flex; align-items: center; gap: 8px;
+  height: 27px; padding: 0 6px 0 8px;
+  border-radius: 6px;
+  font-size: 12.5px; color: var(--txt-2);
+  cursor: default;
+}
+.b3-ob > .i { width: 15px; height: 15px; flex: none; color: #e8873a; }
+.b3-ob:hover { background: var(--hover); }
+.b3-ob.vybrany { background: rgba(232, 135, 58, .14); color: var(--txt); }
+.b3-ob.aktivni { background: rgba(232, 135, 58, .26); color: var(--txt); font-weight: 600; }
+.b3-ob.skryty { opacity: .45; }
+.b3-ob.upravovany { background: rgba(232, 135, 58, .26); color: var(--txt); font-weight: 600; }
+
+/* Render Pro ve výřezu: plátno path traceru mezi WebGL a překryvem */
+.b3-pt { display: none; pointer-events: none; }
+.b3-view.pro .b3-pt { display: block; }
+
+/* časová osa */
+.b3 { position: relative; }
+.b3-osa {
+  flex: none;
+  display: flex; align-items: center; gap: 8px;
+  height: 40px; padding: 0 8px;
+  border-top: 1px solid var(--stroke);
+  background: var(--glass-hi);
+}
+.b3-osa-ovl { display: flex; align-items: center; gap: 2px; flex: none; }
+.b3-osa-cv { flex: 1; min-width: 80px; height: 30px; border-radius: 6px; background: var(--sunk, rgba(0, 0, 0, .15)); cursor: ew-resize; }
+.b3-osa-cislo {
+  width: 54px; height: 26px; padding: 0 6px;
+  font: 12px "Segoe UI", system-ui, sans-serif; text-align: center;
+  color: var(--txt); background: var(--pole, var(--sunk));
+  border: 1px solid var(--stroke); border-radius: 5px;
+}
+.b3-osa-cislo:focus { outline: none; border-color: var(--accent); }
+.b3-osa-popis { font-size: 11px; color: var(--txt-3); margin: 0 3px 0 6px; }
+.b3-select {
+  height: 26px; padding: 0 6px;
+  font: 12px "Segoe UI", system-ui, sans-serif;
+  color: var(--txt); background: var(--pole, var(--sunk));
+  border: 1px solid var(--stroke); border-radius: 5px;
+}
+.b3-osa-fps { margin: 0 4px; }
+
+/* dialogy (Render Pro, video) */
+.b3-dlg-pozadi {
+  position: absolute; inset: 0; z-index: 20;
+  display: grid; place-items: center;
+  background: rgba(0, 0, 0, .45);
+  backdrop-filter: blur(2px);
+}
+.b3-dlg-pozadi:focus { outline: none; }
+.b3-dlg {
+  width: min(92%, 980px); max-height: 92%;
+  display: flex; flex-direction: column;
+  border-radius: 12px; overflow: hidden;
+  background: var(--okno);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .5), 0 0 0 1px var(--stroke);
+}
+.b3-dlg-hlava { display: flex; align-items: center; gap: 8px; padding: 8px 10px 8px 14px; font-weight: 600; font-size: 13px; border-bottom: 1px solid var(--stroke); }
+.b3-dlg-hlava > .i { width: 17px; height: 17px; color: #e8873a; }
+.b3-dlg-telo { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px 14px; min-height: 0; overflow: auto; }
+.b3-dlg-volby { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.b3-dlg-volby label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--txt-2); }
+.b3-dlg-check { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--txt-2); }
+.b3-dlg-check input { accent-color: #e8873a; }
+.b3-dlg-info { flex: 1; min-width: 200px; font-size: 11.5px; color: var(--txt-3); }
+.b3-dlg-nahled { display: grid; place-items: center; background: #111; border-radius: 8px; overflow: hidden; min-height: 200px; }
+.b3-dlg-platno { max-width: 100%; max-height: 58vh; display: block; }
+.b3-pruh { height: 5px; border-radius: 3px; background: var(--hover); overflow: hidden; }
+.b3-pruh > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #f5a04a, #e8873a); transition: width .15s; }
+.b3-dlg-pata { display: flex; align-items: center; gap: 8px; }
+.b3-dlg-stav { font-size: 12px; color: var(--txt-2); font-variant-numeric: tabular-nums; }
+.b3-dlg-video:empty { display: none; }
+.b3-dlg-video video { width: 100%; max-height: 56vh; border-radius: 8px; background: #000; display: block; }
+.b3-dlg-akce { display: flex; gap: 8px; margin-top: 8px; }
+.b3-dlg-akce .btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--txt); }
+.b3-dlg-akce .btn .i { width: 15px; height: 15px; }
+
+/* AstroAI */
+.b3-ai-btn { color: var(--accent); }
+.b3-ai { width: min(640px, 100%); }
+.b3-ai-pole {
+  width: 100%; resize: vertical; min-height: 64px;
+  padding: 10px 12px;
+  font: 14px "Segoe UI", system-ui, sans-serif;
+  color: var(--txt); background: var(--pole, var(--sunk));
+  border: 1px solid var(--stroke); border-radius: 8px;
+}
+.b3-ai-pole:focus { outline: none; border-color: var(--accent); }
+.b3-ai-chipy { display: flex; flex-wrap: wrap; gap: 6px; }
+.b3-ai-chipy .b3-chip { flex: none; padding: 0 10px; height: 26px; }
+.b3-ai .btn.primary { display: inline-flex; align-items: center; gap: 6px; }
+.b3-ai .btn.primary .i { width: 16px; height: 16px; }
+.b3-ai-stav { font-size: 12.5px; color: var(--txt-2); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; min-height: 18px; }
+.b3-ai-stav.ok { color: #6fd08c; }
+.b3-ai-stav.chyba { color: #f08a7a; }
+
+/* světlo a svět */
+.b3-pozn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; margin-top: 10px; padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 12px; text-align: left; color: #f0a35c;
+  background: rgba(232, 135, 58, .12);
+}
+.b3-pozn .i { width: 16px; height: 16px; flex: none; }
+.b3-pozn:hover { background: rgba(232, 135, 58, .22); }
+.b3-svet { border-top: 1px solid var(--stroke); }
+.b3-dlouhy { width: auto !important; flex: 1; min-width: 0; line-height: 1.3; font-size: 11px !important; }
+
+/* režim úprav v panelu */
+.b3-rezimy-panel { display: flex; gap: 4px; margin: 2px 0 8px; }
+.b3-chip {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+  height: 28px; border-radius: 6px;
+  font-size: 11.5px; color: var(--txt-2);
+  background: var(--hover);
+}
+.b3-chip .i { width: 14px; height: 14px; }
+.b3-chip:hover { color: var(--txt); }
+.b3-chip.on { background: rgba(232, 135, 58, .26); color: var(--txt); font-weight: 600; }
+.b3-akce { display: flex; flex-direction: column; gap: 2px; margin-top: 10px; }
+.b3-akce-btn {
+  display: flex; align-items: center; gap: 8px;
+  height: 29px; padding: 0 8px;
+  border-radius: 6px;
+  font-size: 12.5px; color: var(--txt-2);
+  text-align: left;
+}
+.b3-akce-btn .i { width: 16px; height: 16px; color: #e8873a; }
+.b3-akce-btn span { flex: 1; }
+.b3-akce-btn kbd { font: 600 10.5px "Segoe UI", system-ui, sans-serif; padding: 1px 5px; border-radius: 4px; background: var(--hover); color: var(--txt-3); }
+.b3-akce-btn:hover { background: var(--hover); color: var(--txt); }
+.b3-ob-jm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.b3-oko { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 5px; color: var(--txt-3); }
+.b3-oko .i { width: 14px; height: 14px; }
+.b3-oko:hover { background: var(--hover); color: var(--txt); }
+.b3-prejm { flex: 1; min-width: 0; height: 21px; padding: 0 5px; font: inherit; border-radius: 4px; border: 1px solid var(--accent); background: var(--pole); color: var(--txt); }
+.b3-prazdno { padding: 10px 8px; font-size: 12px; color: var(--txt-3); }
+
+.b3-vlastnosti { flex: 1; overflow: auto; padding-bottom: 12px; }
+.b3-form { padding: 0 12px; }
+.b3-form .b3-nadpis { padding: 12px 0 6px; }
+.b3-skup { margin: 6px 0 8px; }
+.b3-popis { font-size: 11.5px; color: var(--txt-3); }
+.b3-skup > .b3-popis { margin-bottom: 4px; }
+.b3-trojice { display: flex; flex-direction: column; gap: 2px; }
+.b3-os { display: flex; align-items: center; gap: 0; }
+.b3-os > span { width: 18px; font-size: 11px; font-weight: 700; text-align: center; }
+
+.b3-cislo {
+  flex: 1; min-width: 0; height: 24px;
+  padding: 0 8px;
+  font: 12px/1 "Segoe UI", system-ui, sans-serif;
+  text-align: center;
+  color: var(--txt);
+  background: var(--pole, var(--sunk));
+  border: 1px solid var(--stroke);
+  border-radius: 5px;
+  cursor: ew-resize;
+}
+.b3-cislo:hover { border-color: var(--stroke-hi); }
+.b3-cislo:focus { cursor: text; outline: none; border-color: var(--accent); text-align: left; }
+.b3-cislo.tahne { border-color: #e8873a; }
+
+.b3-radek { display: flex; align-items: center; gap: 8px; min-height: 30px; }
+.b3-radek > .b3-popis { width: 64px; flex: none; }
+.b3-text {
+  flex: 1; min-width: 0; height: 26px; padding: 0 8px;
+  font: inherit; font-size: 12.5px;
+  color: var(--txt); background: var(--pole, var(--sunk));
+  border: 1px solid var(--stroke); border-radius: 5px;
+}
+.b3-text:focus { outline: none; border-color: var(--accent); }
+.b3-barva { width: 30px; height: 26px; flex: none; padding: 0; border: 1px solid var(--stroke); border-radius: 5px; background: none; cursor: pointer; }
+.b3-paleta { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; flex: 1; }
+.b3-vzorek { height: 11px; border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .3); }
+.b3-vzorek:hover { transform: scale(1.15); }
+.b3-rozsah { flex: 1; min-width: 0; accent-color: #e8873a; }
+.b3-hodnota { width: 32px; text-align: right; font-size: 11.5px; color: var(--txt-2); font-variant-numeric: tabular-nums; }
+.b3-check { gap: 8px; font-size: 12.5px; color: var(--txt-2); cursor: pointer; }
+.b3-check input { accent-color: #e8873a; }
+.b3-stat { font-size: 11px; color: var(--txt-3); margin: 2px 0 4px; }
+
+.b3-nic { padding: 36px 20px; text-align: center; color: var(--txt-3); }
+.b3-nic .i { width: 34px; height: 34px; opacity: .6; }
+.b3-nic p { margin: 10px 0 0; font-size: 13px; color: var(--txt-2); }
+.b3-nic p.mal { font-size: 12px; color: var(--txt-3); line-height: 1.45; }
+
+/* ---------- pata ---------- */
+.b3-pata {
+  flex: none;
+  display: flex; align-items: center; gap: 14px;
+  height: 26px; padding: 0 10px;
+  font-size: 11.5px; color: var(--txt-3);
+  border-top: 1px solid var(--stroke);
+  background: var(--glass-hi);
+  white-space: nowrap; overflow: hidden;
+}
+.b3-jmeno { color: var(--txt-2); font-weight: 600; max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+.b3-napoveda { display: flex; gap: 12px; overflow: hidden; }
+.b3-napoveda > span { display: flex; align-items: center; gap: 4px; }
+.b3-napoveda kbd {
+  font: 600 10.5px "Segoe UI", system-ui, sans-serif;
+  padding: 1px 5px; border-radius: 4px;
+  background: var(--hover); color: var(--txt-2);
+}
+
+.b3-chyba { height: 100%; display: grid; place-content: center; justify-items: center; gap: 8px; color: var(--txt-2); text-align: center; padding: 30px; }
+.b3-chyba .i { width: 36px; height: 36px; }
+
+/* volný pohyb: kurzor schovaný, myš rozhlíží */
+.b3-view.let { cursor: none; }

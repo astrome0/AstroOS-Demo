@@ -1,0 +1,131 @@
+/* AstroOS — Hry */
+
+.hr { height: 100%; display: flex; flex-direction: column; background: var(--okno); }
+
+.hr-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--stroke);
+  background: var(--glass-hi);
+}
+.hr-nazev { font-size: 14px; font-weight: 620; color: var(--txt); }
+.hr-spacer { flex: 1; }
+.hr-skore { font-size: 12px; color: var(--txt-2); font-variant-numeric: tabular-nums; }
+.hr-btn {
+  display: flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 12px;
+  border-radius: var(--r-s);
+  font-size: 12px;
+  color: var(--txt-2);
+}
+.hr-btn .i { width: 15px; height: 15px; }
+.hr-btn:hover { background: var(--hover); color: var(--txt); }
+.hr-btn.primary { background: var(--accent); color: var(--accent-text); font-weight: 600; height: 34px; padding: 0 18px; }
+.hr-btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
+
+.hr-plocha { flex: 1; overflow: auto; display: grid; place-items: center; padding: 18px; }
+
+/* ---------- výběr hry ---------- */
+.hr-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; width: 100%; max-width: 640px; }
+.hr-karta {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 7px;
+  padding: 16px;
+  border-radius: var(--r-l);
+  background: var(--glass-hi);
+  border: 1px solid var(--stroke);
+  text-align: left;
+  transition: transform 0.16s var(--ease), border-color 0.16s;
+}
+.hr-karta:hover { transform: translateY(-3px); border-color: var(--barva); }
+.hr-ikona {
+  display: grid; place-items: center;
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--barva) 22%, transparent);
+  color: var(--barva);
+}
+.hr-ikona .i { width: 24px; height: 24px; }
+.hr-karta h3 { font-size: 15px; color: var(--txt); }
+.hr-karta p { font-size: 12px; color: var(--txt-3); line-height: 1.5; }
+.hr-rekord { margin-top: 3px; font-size: 11px; color: var(--barva); }
+
+/* ---------- společné pro hry ---------- */
+.hr-stred { position: relative; display: grid; place-items: center; }
+.hr-canvas { border-radius: var(--r-m); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+.hr-hlaska {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  border-radius: var(--r-m);
+  background: rgba(8, 12, 14, 0.82);
+  backdrop-filter: blur(4px);
+  text-align: center;
+}
+.hr-hlaska b { font-size: 20px; color: var(--txt); }
+.hr-hlaska span { font-size: 12.5px; color: var(--txt-2); }
+.hr-hlaska .hr-novy { color: var(--accent); font-weight: 600; }
+.hr-hlaska .hr-btn { margin-top: 6px; }
+
+/* ---------- 2048 ---------- */
+.hr-2048 {
+  display: grid;
+  grid-template-columns: repeat(4, 88px);
+  grid-auto-rows: 88px;
+  gap: 9px;
+  padding: 9px;
+  border-radius: var(--r-m);
+  background: var(--sunk-2);
+}
+.hr-dlazdice {
+  display: grid; place-items: center;
+  border-radius: 8px;
+  background: var(--hover);
+  font-size: 26px;
+  font-weight: 700;
+  color: #26313a;
+  font-variant-numeric: tabular-nums;
+}
+.hr-dlazdice.plna { animation: dl-in 0.14s var(--ease-out); }
+@keyframes dl-in { from { transform: scale(0.72); } to { transform: none; } }
+.hr-dlazdice[data-v="2"] { background: #e9e3d8; }
+.hr-dlazdice[data-v="4"] { background: #e8dcc0; }
+.hr-dlazdice[data-v="8"] { background: #f0b07a; color: #fff; }
+.hr-dlazdice[data-v="16"] { background: #ef9463; color: #fff; }
+.hr-dlazdice[data-v="32"] { background: #ef7a5e; color: #fff; }
+.hr-dlazdice[data-v="64"] { background: #ec5f3c; color: #fff; }
+.hr-dlazdice[data-v="128"] { background: #e8ce72; color: #fff; font-size: 23px; }
+.hr-dlazdice[data-v="256"] { background: #e6c85e; color: #fff; font-size: 23px; }
+.hr-dlazdice[data-v="512"] { background: #e4c24a; color: #fff; font-size: 23px; }
+.hr-dlazdice[data-v="1024"] { background: #54d98a; color: #fff; font-size: 19px; }
+.hr-dlazdice[data-v="2048"] { background: #2b9b53; color: #fff; font-size: 19px; box-shadow: 0 0 22px #2b9b5388; }
+
+/* ---------- Miny ---------- */
+.hr-miny {
+  display: grid;
+  grid-template-columns: repeat(9, 38px);
+  grid-auto-rows: 38px;
+  gap: 3px;
+  padding: 9px;
+  border-radius: var(--r-m);
+  background: var(--sunk-2);
+}
+.hr-bunka {
+  display: grid; place-items: center;
+  border-radius: 5px;
+  background: var(--hover-2);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--txt-2);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+}
+.hr-bunka:hover { background: var(--stroke-hi); }
+.hr-bunka.odkryta { background: var(--sunk); box-shadow: none; cursor: default; }
+.hr-bunka.mina { background: #ef6a5a; color: #fff; }
+.hr-bunka.odkryta[data-c="1"] { color: #6aa9f0; }
+.hr-bunka.odkryta[data-c="2"] { color: #54d98a; }
+.hr-bunka.odkryta[data-c="3"] { color: #ef8a7a; }
+.hr-bunka.odkryta[data-c="4"] { color: #a077f0; }
+.hr-bunka.odkryta[data-c="5"] { color: #f0b95c; }
+.hr-bunka.odkryta[data-c="6"] { color: #3fd0c8; }

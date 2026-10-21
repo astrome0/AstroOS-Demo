@@ -1,0 +1,92 @@
+/* AstroOS — Hudba */
+
+.hu { height: 100%; display: flex; min-height: 0; background: var(--okno); }
+
+/* ---------- přehrávač ---------- */
+.hu-prehravac {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  min-width: 0;
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--accent-soft), transparent 62%),
+    var(--sunk);
+}
+.hu-vizual { width: 100%; max-width: 420px; height: 90px; }
+.hu-info { text-align: center; }
+.hu-nazev { font-size: 19px; font-weight: 650; color: var(--txt); }
+.hu-autor { margin-top: 3px; font-size: 11.5px; color: var(--txt-3); }
+
+.hu-radka { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 420px; }
+.hu-cas { font-size: 11px; color: var(--txt-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hu-pruh {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--hover-2);
+  cursor: pointer;
+  overflow: hidden;
+}
+.hu-pruh i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 3px; }
+
+.hu-ovladani { display: flex; align-items: center; gap: 10px; }
+.hu-ovl {
+  display: grid; place-items: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  color: var(--txt-2);
+}
+.hu-ovl .i { width: 18px; height: 18px; }
+.hu-ovl:hover { background: var(--hover); color: var(--txt); }
+.hu-ovl.on { color: var(--accent); background: var(--accent-soft); }
+.hu-hlavni {
+  display: grid; place-items: center;
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-text);
+  box-shadow: 0 8px 24px var(--accent-soft);
+  transition: transform 0.14s var(--ease);
+}
+.hu-hlavni:hover { transform: scale(1.06); }
+.hu-hlavni .i { width: 24px; height: 24px; }
+
+/* ---------- knihovna ---------- */
+.hu-knihovna {
+  flex: none;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid var(--stroke);
+}
+.hu-hlavicka {
+  flex: none;
+  padding: 12px 14px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--txt-3);
+  border-bottom: 1px solid var(--stroke);
+}
+.hu-seznam { flex: 1; overflow: auto; padding: 6px; }
+.hu-radek {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--r-s);
+  text-align: left;
+}
+.hu-radek:hover { background: var(--hover); }
+.hu-radek.on { background: var(--accent-soft); }
+.hu-poradi { display: grid; place-items: center; width: 18px; font-size: 11px; color: var(--txt-3); }
+.hu-radek.on .hu-poradi { color: var(--accent); }
+.hu-poradi .i { width: 14px; height: 14px; }
+.hu-jmeno { flex: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.hu-jmeno b { font-size: 12.5px; font-weight: 560; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hu-jmeno i { font-size: 10.5px; font-style: normal; color: var(--txt-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hu-delka { font-size: 11px; color: var(--txt-3); font-variant-numeric: tabular-nums; }

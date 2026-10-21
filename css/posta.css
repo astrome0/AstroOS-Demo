@@ -1,0 +1,170 @@
+/* AstroOS — Pošta */
+
+.po { height: 100%; display: flex; min-height: 0; background: var(--okno); }
+
+/* ---------- složky ---------- */
+.po-slozky {
+  flex: none;
+  width: 172px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px;
+  border-right: 1px solid var(--stroke);
+  background: var(--sunk);
+}
+.po-napsat {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  height: 36px;
+  margin-bottom: 8px;
+  border-radius: var(--r-m);
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.po-napsat:hover { filter: brightness(1.08); }
+.po-napsat .i { width: 16px; height: 16px; }
+.po-slozka {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 10px;
+  border-radius: var(--r-s);
+  font-size: 12.5px;
+  color: var(--txt-2);
+  text-align: left;
+}
+.po-slozka .i { width: 16px; height: 16px; flex: none; }
+.po-slozka span { flex: 1; }
+.po-slozka:hover { background: var(--hover); color: var(--txt); }
+.po-slozka.on { background: var(--accent-soft); color: var(--accent); }
+.po-pocet {
+  flex: none !important;
+  min-width: 18px;
+  padding: 1px 5px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ---------- seznam zpráv ---------- */
+.po-seznam {
+  flex: none;
+  width: 290px;
+  overflow: auto;
+  padding: 6px;
+  border-right: 1px solid var(--stroke);
+}
+.po-radek {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 8px;
+  width: 100%;
+  padding: 9px 11px;
+  border-radius: var(--r-s);
+  text-align: left;
+  border-left: 2px solid transparent;
+}
+.po-radek:hover { background: var(--hover); }
+.po-radek.on { background: var(--accent-soft); }
+.po-radek.nove { border-left-color: var(--accent); }
+.po-kdo { font-size: 12px; color: var(--txt-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.po-radek.nove .po-kdo { color: var(--txt); font-weight: 650; }
+.po-kdy { font-size: 10.5px; color: var(--txt-3); white-space: nowrap; }
+.po-predmet {
+  grid-column: 1 / -1;
+  font-size: 12.5px;
+  color: var(--txt);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.po-uryvek {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  color: var(--txt-3);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ---------- čtení ---------- */
+.po-ctenar { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: auto; }
+.po-hlavicka { flex: none; padding: 18px 22px 14px; border-bottom: 1px solid var(--stroke); }
+.po-hlavicka h2 { font-size: 17px; font-weight: 620; color: var(--txt); }
+.po-meta { display: flex; align-items: center; gap: 11px; margin-top: 12px; }
+.po-avatar {
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+}
+.po-od { font-size: 12.5px; color: var(--txt); }
+.po-komu { font-size: 11px; color: var(--txt-3); margin-top: 2px; }
+.po-spacer { flex: 1; }
+.po-akce {
+  display: flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 12px;
+  border-radius: var(--r-s);
+  font-size: 12px;
+  color: var(--txt-2);
+  background: var(--glass-hi);
+}
+.po-akce:hover { background: var(--hover-2); color: var(--txt); }
+.po-akce .i { width: 15px; height: 15px; }
+.po-akce.ic { padding: 0; width: 30px; justify-content: center; }
+.po-telo {
+  padding: 20px 22px;
+  font-size: 13px;
+  line-height: 1.68;
+  color: var(--txt-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---------- psaní ---------- */
+.po-psani { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.po-radka {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 22px;
+  border-bottom: 1px solid var(--stroke);
+}
+.po-radka > span { flex: none; width: 58px; font-size: 11.5px; color: var(--txt-3); }
+.po-pole {
+  flex: 1;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--r-s);
+  background: var(--pole);
+  color: var(--txt);
+  font-family: inherit;
+  font-size: 12.5px;
+  outline: none;
+}
+.po-pole:focus { box-shadow: inset 0 0 0 1px var(--accent); }
+.po-telo-pole {
+  flex: 1;
+  min-height: 160px;
+  padding: 16px 22px;
+  border: 0;
+  background: none;
+  color: var(--txt);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.65;
+  resize: none;
+  outline: none;
+}
+.po-patka { flex: none; display: flex; gap: 8px; padding: 12px 22px; border-top: 1px solid var(--stroke); }
+
+/* ---------- prázdno ---------- */
+.po-prazdno {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  padding: 40px;
+  color: var(--txt-3);
+  font-size: 12.5px;
+  text-align: center;
+}
+.po-prazdno .i { width: 34px; height: 34px; opacity: 0.45; }

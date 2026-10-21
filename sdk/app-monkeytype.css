@@ -1,0 +1,31 @@
+/* Monkeytype jako aplikace AstroOS — načítá se jen v okně aplikace. */
+
+/* reklamy, lišta s obchodem, souhlas s cookies (odmítnutý předem v app-monkeytype.js) */
+html.astro-app #adBanner,
+html.astro-app .adBanner,
+html.astro-app [id^="ad-"],
+html.astro-app [class*="adWrapper"],
+html.astro-app #confiant_tag_holder,
+html.astro-app body > iframe,
+html.astro-app div.fixed.w-full:has(> .bg-main),
+html.astro-app #CookiesModal { display: none !important; }
+
+/* přihlášení a účet (Firebase přes proxy nejde), oznámení účtu, odkazy na sítě v patičce */
+html.astro-app header nav > div:has(.fa-user),
+html.astro-app header nav > [data-nav-item="alerts"],
+html.astro-app footer > div:last-child { display: none !important; }
+
+/* web má posuvník vždycky (overflow-y: scroll) — aplikace jen když je potřeba */
+html.astro-app { overflow-y: auto !important; }
+
+/* Barvy AstroOS místo motivu Monkeytype (přepínač „Barvy AstroOS“ v nabídce okna) */
+html[data-astro-barvy="1"] {
+  --bg-color: var(--astro-okno) !important;
+  --main-color: var(--astro-akcent) !important;
+  --caret-color: var(--astro-akcent) !important;
+  --sub-color: var(--astro-text-3) !important;
+  --sub-alt-color: var(--astro-pole) !important;
+  --text-color: var(--astro-text) !important;
+}
+html[data-astro-barvy="1"],
+html[data-astro-barvy="1"] body { background: var(--astro-okno) !important; }

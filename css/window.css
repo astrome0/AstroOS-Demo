@@ -1,0 +1,246 @@
+/* AstroOS — okna aplikací */
+
+.window-layer { position: absolute; inset: 0 0 var(--panel-misto) 0; z-index: 30; pointer-events: none; }
+.window-layer > * { pointer-events: auto; }
+
+.win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 200px;
+  border-radius: var(--r-l);
+  background: var(--okno);
+  backdrop-filter: blur(var(--blur)) saturate(1.7);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.7);
+  border: 1px solid var(--stroke);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: win-in 0.2s var(--ease-out);
+}
+@keyframes win-in {
+  from { opacity: 0; transform: scale(0.94) translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.win.focused {
+  border-color: var(--stroke-hi);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.62), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.win.max { border-radius: 0; border-width: 0; }
+.win.closing { animation: win-out 0.16s var(--ease) forwards; }
+@keyframes win-out {
+  to { opacity: 0; transform: scale(0.95); }
+}
+.win.minimizing { animation: win-min 0.2s var(--ease) forwards; transform-origin: bottom center; }
+@keyframes win-min {
+  to { opacity: 0; transform: scale(0.7) translateY(60px); }
+}
+.win.moving, .win.sizing { transition: none; }
+.win.snapping { transition: left 0.18s var(--ease), top 0.18s var(--ease), width 0.18s var(--ease), height 0.18s var(--ease); }
+
+.win-bar {
+  height: 40px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  background: var(--glass-hi);
+  border-bottom: 1px solid var(--stroke);
+}
+.win-bar .glyph {
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  display: grid; place-items: center;
+  color: #fff;
+  margin-right: 9px;
+  flex: none;
+}
+.win-bar .glyph .i { width: 12px; height: 12px; }
+.win-bar .title {
+  font-size: 12.5px;
+  color: var(--txt-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.win.focused .win-bar .title { color: var(--txt); }
+.win-bar .drag { flex: 1; align-self: stretch; }
+
+.win-ctl { display: flex; height: 100%; flex: none; }
+.win-ctl button {
+  width: 44px;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--txt-2);
+  transition: background 0.12s, color 0.12s;
+}
+.win-ctl button:hover { background: rgba(255, 255, 255, 0.1); color: var(--txt); }
+.win-ctl button.close:hover { background: #c4302b; color: #fff; }
+.win-ctl .i { width: 11px; height: 11px; }
+
+.win-body { flex: 1; overflow: auto; position: relative; }
+
+/* úchyty pro změnu velikosti */
+.rs { position: absolute; z-index: 4; }
+.rs.n { top: -3px; left: 10px; right: 10px; height: 7px; cursor: ns-resize; }
+.rs.s { bottom: -3px; left: 10px; right: 10px; height: 7px; cursor: ns-resize; }
+.rs.w { left: -3px; top: 10px; bottom: 10px; width: 7px; cursor: ew-resize; }
+.rs.e { right: -3px; top: 10px; bottom: 10px; width: 7px; cursor: ew-resize; }
+.rs.nw { left: -4px; top: -4px; width: 14px; height: 14px; cursor: nwse-resize; }
+.rs.ne { right: -4px; top: -4px; width: 14px; height: 14px; cursor: nesw-resize; }
+.rs.sw { left: -4px; bottom: -4px; width: 14px; height: 14px; cursor: nesw-resize; }
+.rs.se { right: -4px; bottom: -4px; width: 14px; height: 14px; cursor: nwse-resize; }
+
+/* okno patřící jiné ploše */
+.win.jina-plocha { display: none !important; }
+
+/* přepínač oken (Alt+Tab) */
+.prepinac {
+  position: fixed;
+  left: 50%; top: 50%;
+  z-index: 970;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 6px;
+  max-width: 88vw;
+  overflow-x: auto;
+  padding: 14px;
+  border-radius: var(--r-l);
+  background: var(--glass-2);
+  backdrop-filter: blur(var(--blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.8);
+  border: 1px solid var(--stroke-hi);
+  box-shadow: var(--shadow-l);
+  animation: fade-in 0.12s var(--ease);
+}
+.prep-i {
+  width: 118px;
+  flex: none;
+  padding: 14px 8px 10px;
+  border-radius: var(--r-m);
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+.prep-i.on { background: var(--accent-soft); border-color: var(--accent); }
+.prep-ic {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  color: #fff;
+  box-shadow: 0 4px 12px var(--sunk-2), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.prep-ic .i { width: 24px; height: 24px; }
+.prep-t {
+  font-size: 11.5px;
+  text-align: center;
+  color: var(--txt-2);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prep-i.on .prep-t { color: var(--txt); }
+
+/* náhled přichycení k okraji */
+.snap-ghost {
+  position: absolute;
+  z-index: 25;
+  border-radius: var(--r-l);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border: 1px solid var(--accent);
+  backdrop-filter: blur(6px);
+  transition: all 0.16s var(--ease);
+  pointer-events: none;
+}
+
+/* ---------- obsah: uvítací aplikace ---------- */
+.welcome { padding: 0; height: 100%; display: flex; flex-direction: column; }
+.welcome .hero {
+  padding: 26px 30px 22px;
+  background:
+    radial-gradient(120% 130% at 12% 0%, color-mix(in srgb, var(--accent) 30%, transparent) 0%, transparent 62%),
+    linear-gradient(160deg, rgba(45, 127, 184, 0.24), transparent 70%);
+  border-bottom: 1px solid var(--stroke);
+}
+.welcome .hero .logo { width: 44px; height: 44px; margin-bottom: 16px; }
+.welcome .hero h1 { font-size: 25px; font-weight: 300; letter-spacing: 0.01em; }
+.welcome .hero h1 b { font-weight: 600; }
+.welcome .hero p { margin-top: 8px; font-size: 13px; color: var(--txt-2); line-height: 1.55; max-width: 44ch; }
+.welcome .cards { padding: 16px 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.wcard {
+  padding: 13px 14px;
+  border-radius: var(--r-m);
+  background: var(--glass-hi);
+  border: 1px solid var(--stroke);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.wcard:hover { border-color: var(--stroke-hi); transform: translateY(-2px); }
+.wcard .ic {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: grid; place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 11px;
+}
+.wcard h3 { font-size: 13px; margin-bottom: 5px; }
+.wcard p { font-size: 12px; color: var(--txt-2); line-height: 1.5; }
+.welcome .foot {
+  margin-top: auto;
+  padding: 14px 24px;
+  border-top: 1px solid var(--stroke);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--txt-3);
+}
+.welcome .foot .btn { margin-left: auto; }
+
+/* ---------- obsah: připravujeme ---------- */
+.soon-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 30px;
+  text-align: center;
+}
+.soon-app .big {
+  width: 76px; height: 76px;
+  border-radius: 20px;
+  display: grid; place-items: center;
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  animation: float 3.4s ease-in-out infinite;
+}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.soon-app .big .i { width: 38px; height: 38px; }
+.soon-app h2 { font-size: 19px; font-weight: 500; }
+.soon-app p { font-size: 13px; color: var(--txt-2); max-width: 40ch; line-height: 1.6; }
+.soon-app .tag {
+  margin-top: 4px;
+  font-size: 11.5px;
+  padding: 5px 12px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* ---------- obsah: o systému ---------- */
+.about { padding: 26px 30px; }
+.about .top { display: flex; align-items: center; gap: 18px; margin-bottom: 24px; }
+.about .top .logo { width: 56px; height: 56px; }
+.about .top h2 { font-size: 22px; font-weight: 300; letter-spacing: 0.02em; }
+.about .top .sub { font-size: 12.5px; color: var(--txt-2); margin-top: 3px; }
+.spec { display: flex; padding: 9px 0; border-bottom: 1px solid var(--stroke); font-size: 12.5px; }
+.spec:last-child { border-bottom: 0; }
+.spec .k { width: 160px; flex: none; color: var(--txt-3); }
+.spec .v { color: var(--txt); }

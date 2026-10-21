@@ -1,0 +1,66 @@
+/* Mapy (www.openstreetmap.org) jako aplikace AstroOS — načítá se jen v okně aplikace. */
+
+/* hlavička webu (Upravit, Historie, Přihlásit se…) a uvítání pro nové návštěvníky */
+html.astro-app body > header,
+html.astro-app #sidebar .welcome,
+html.astro-app .control-note,
+html.astro-app .control-query,
+html.astro-app .control-share,
+html.astro-app .leaflet-control-attribution .donate-attr { display: none !important; }
+
+/* Hledání jako plovoucí karta nad mapou, ne pruh webu */
+html.astro-app #sidebar {
+  margin: 12px 0 12px 12px;
+  border-radius: 14px;
+  overflow: hidden auto;
+  max-height: calc(100% - 24px);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28), 0 0 0 1px color-mix(in srgb, var(--astro-text, #888) 10%, transparent);
+}
+html.astro-app #sidebar .search_forms form { background: transparent !important; padding: 10px !important; }
+html.astro-app #sidebar .search_form .form-control,
+html.astro-app #sidebar .directions_form .form-control {
+  border-radius: 9px 0 0 9px;
+  font-family: inherit;
+}
+html.astro-app #sidebar .search_form .btn,
+html.astro-app #sidebar .directions_form .btn { border-radius: 9px !important; }
+html.astro-app #sidebar .search_form .input-group > .btn { border-radius: 0 9px 9px 0 !important; }
+html.astro-app .btn-primary {
+  --bs-btn-bg: var(--astro-akcent);
+  --bs-btn-border-color: var(--astro-akcent);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--astro-akcent) 85%, #000);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--astro-akcent) 85%, #000);
+  --bs-btn-active-bg: color-mix(in srgb, var(--astro-akcent) 75%, #000);
+  --bs-btn-color: var(--astro-akcent-text, #fff);
+  --bs-btn-hover-color: var(--astro-akcent-text, #fff);
+}
+
+/* Ovládání mapy vpravo: zaoblené dlaždice jako tlačítka systému */
+html.astro-app .leaflet-top.leaflet-right { margin: 6px 6px 0 0; }
+html.astro-app .leaflet-control .control-button {
+  border-radius: 0 !important;
+}
+html.astro-app .leaflet-control:not(.leaflet-control-scale):not(.leaflet-control-attribution) {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  margin-bottom: 8px;
+}
+/* hlavička byla nad mapou — obsah pod ní začínal o její výšku níž */
+html.astro-app #content { top: 0 !important; }
+
+/* Z atribuce zůstane jen povinné „© Přispěvatelé OpenStreetMap“ (bez srdíčka a odkazů webu) */
+html.astro-app .leaflet-control-attribution {
+  border-radius: 8px 0 0 0;
+  opacity: 0.8;
+  font-size: 0 !important;
+}
+html.astro-app .leaflet-control-attribution a { display: none; }
+html.astro-app .leaflet-control-attribution a:first-of-type { display: inline; font-size: 10.5px; }
+html.astro-app .leaflet-control-attribution a:first-of-type::before { content: '© '; }
+
+/* Tmavá mapa: dlaždice se převrátí do tmavých barev (vodu i parky zachová otočení odstínu) */
+html[data-astro-motiv="tmavy"][data-astro-tmava="1"] .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.86) saturate(0.7);
+}
+html[data-astro-motiv="tmavy"][data-astro-tmava="1"] #map { background: #1d2124 !important; }

@@ -1,0 +1,86 @@
+/* AstroOS — ukázková verze: zamčené aplikace (js/demo.js) */
+
+.demo-zamek {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 36px;
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 18%, var(--accent-soft), transparent 62%);
+}
+.demo-zamek h2 { margin: 4px 0 0; font-size: 22px; font-weight: 650; }
+.demo-zamek p { margin: 0; max-width: 400px; color: var(--txt-2); line-height: 1.5; font-size: 13.5px; }
+.demo-zamek .demo-proc { color: var(--txt-3); font-size: 12.5px; }
+
+.demo-ikona { position: relative; width: 92px; height: 92px; margin-bottom: 6px; }
+.demo-ikona img { width: 100%; height: 100%; object-fit: contain; filter: grayscale(0.55) brightness(0.8); }
+.demo-zamecek {
+  position: absolute; right: -6px; bottom: -6px;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--glass-2); border: 1px solid var(--stroke-hi);
+  box-shadow: var(--shadow-m); color: var(--txt);
+}
+.demo-zamecek svg { width: 18px; height: 18px; }
+
+.demo-stitek {
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-soft);
+}
+.demo-kod {
+  margin-top: 4px; padding: 4px 10px; border-radius: var(--r-s);
+  font-family: var(--mono); font-size: 11.5px; color: var(--txt-3);
+  background: var(--sunk); border: 1px solid var(--stroke);
+}
+.demo-tlacitka { margin-top: 10px; }
+
+/* vodoznak na ploše */
+.demo-vodoznak {
+  position: fixed;
+  right: 28px;
+  bottom: calc(var(--panel-misto, 56px) + 14px);
+  z-index: 960;              /* nad okny, jako vodoznak neaktivovaného Windows — klikat jde skrz */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  max-width: min(560px, calc(100vw - 56px));
+  text-align: right;
+  pointer-events: none;
+  user-select: none;
+  color: rgba(255, 255, 255, 0.62);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+.demo-vodoznak b { font-size: 24px; font-weight: 600; letter-spacing: 0.04em; }
+.demo-vodoznak span { font-size: 13.5px; }
+.demo-vodoznak small { font-size: 12px; opacity: 0.85; }
+:root[data-motiv="svetly"] .demo-vodoznak { color: rgba(30, 36, 40, 0.6); text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7); }
+#desktop.hidden ~ .demo-vodoznak { display: none; }
+/* vodoznak aktivace (aktivace.js) jde nad ten náš */
+body:has(.demo-vodoznak) .aktivace-vodoznak { bottom: calc(var(--panel-misto, 56px) + 100px); }
+
+/* pruh na bootu a zámku (index.html) — na ploše ho nahradí vodoznak */
+.demo-pruh {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 995;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font: 600 12.5px/1.3 var(--font);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+}
+#desktop:not(.hidden) ~ .demo-pruh { display: none; }
+@media (max-width: 560px) { .demo-pruh { white-space: normal; text-align: center; width: calc(100% - 32px); } }

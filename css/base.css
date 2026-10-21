@@ -1,0 +1,392 @@
+/* AstroOS — základní styly, tokeny, sdílené komponenty */
+
+:root {
+  /* akcent (mění se v Nastavení) */
+  --accent: #46c36f;
+  --accent-soft: #46c36f33;
+  --accent-deep: #2b9b53;
+  --accent-text: #0b1410;
+
+  /* plochy */
+  --bg-0: #0a0f12;
+  --bg-1: #10171b;
+  --glass: rgba(22, 29, 34, 0.72);
+  --glass-2: rgba(28, 36, 42, 0.86);
+  --glass-hi: rgba(255, 255, 255, 0.06);
+  --stroke: rgba(255, 255, 255, 0.09);
+  --stroke-hi: rgba(255, 255, 255, 0.16);
+
+  /* odvozené plochy — kvůli světlému motivu nepiš barvy natvrdo */
+  --hover: rgba(255, 255, 255, 0.09);      /* běžné najetí myší */
+  --hover-2: rgba(255, 255, 255, 0.14);    /* výraznější najetí */
+  --sunk: rgba(0, 0, 0, 0.2);              /* zapuštěné pruhy, patičky */
+  --sunk-2: rgba(0, 0, 0, 0.35);           /* bloky kódu, terminál */
+  --pole: rgba(8, 12, 14, 0.5);            /* vstupní pole */
+  --okno: rgba(18, 24, 28, 0.9);           /* pozadí okna */
+  --panel-bg: rgba(14, 19, 23, 0.78);      /* hlavní panel */
+
+  /* text */
+  --txt: #eef3f5;
+  --txt-2: #a8b6bf;
+  --txt-3: #6d7d87;
+
+  /* efekty */
+  --blur: 30px;
+  --r-s: 6px;
+  --r-m: 10px;
+  --r-l: 14px;
+  --r-xl: 20px;
+
+  /* rozměry, které mění Nastavení */
+  --ikona-w: 96px;
+  --ikona-h: 104px;
+  --ikona-glyph: 46px;
+  --ikona-obrazek: 25px;
+  --ikona-text: 12px;
+  --shadow-m: 0 8px 24px rgba(0, 0, 0, 0.42);
+  --shadow-l: 0 24px 64px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --ease: cubic-bezier(0.2, 0.9, 0.25, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --taskbar-h: 50px;
+  --panel-misto: var(--taskbar-h);   /* kolik místa panel ubírá oknům */
+  --scroll: rgba(255, 255, 255, 0.14);
+  --font: "Segoe UI Variable Text", "Segoe UI", Inter, system-ui, -apple-system, "Noto Sans", sans-serif;
+  --mono: "Cascadia Mono", "JetBrains Mono", Consolas, "Courier New", monospace;
+}
+
+/* ---------- světlý motiv ---------- */
+:root[data-motiv="svetly"] {
+  --bg-0: #e8edf2;
+  --bg-1: #f4f7fa;
+  --glass: rgba(247, 250, 252, 0.76);
+  --glass-2: rgba(252, 253, 255, 0.92);
+  --glass-hi: rgba(16, 28, 38, 0.045);
+  --stroke: rgba(16, 28, 38, 0.11);
+  --stroke-hi: rgba(16, 28, 38, 0.2);
+  --hover: rgba(16, 28, 38, 0.06);
+  --hover-2: rgba(16, 28, 38, 0.11);
+  --sunk: rgba(16, 28, 38, 0.05);
+  --sunk-2: rgba(16, 28, 38, 0.09);
+  --pole: rgba(255, 255, 255, 0.88);
+  --okno: rgba(250, 252, 254, 0.93);
+  --panel-bg: rgba(243, 246, 250, 0.84);
+  --scroll: rgba(16, 28, 38, 0.2);
+  --txt: #0f1519;
+  --txt-2: #4b5a64;
+  --txt-3: #78878f;
+  --shadow-m: 0 8px 24px rgba(20, 35, 50, 0.14);
+  --shadow-l: 0 20px 56px rgba(20, 35, 50, 0.2), 0 2px 8px rgba(20, 35, 50, 0.1);
+}
+/* ve světlém motivu jsou ikony aplikací na bílém pozadí, ať mají obrys */
+:root[data-motiv="svetly"] .win-bar .glyph,
+:root[data-motiv="svetly"] .tb-btn .glyph,
+:root[data-motiv="svetly"] .pin .glyph { box-shadow: 0 1px 3px rgba(20, 35, 50, 0.22); }
+:root[data-motiv="svetly"] .win-ctl button:hover { background: var(--hover-2); }
+
+/* ---------- zaoblení rohů ---------- */
+:root[data-rohy="ostre"] { --r-s: 2px; --r-m: 3px; --r-l: 4px; --r-xl: 6px; }
+:root[data-rohy="kulate"] { --r-s: 10px; --r-m: 15px; --r-l: 20px; --r-xl: 26px; }
+
+/* ---------- sklo a rozostření ---------- */
+:root[data-sklo="jemne"] { --blur: 14px; }
+:root[data-sklo="vyp"] {
+  --blur: 0px;
+  --glass: rgba(17, 23, 27, 0.97);
+  --glass-2: rgba(22, 29, 34, 0.99);
+  --okno: rgba(17, 23, 27, 0.98);
+  --panel-bg: rgba(13, 18, 21, 0.98);
+}
+:root[data-motiv="svetly"][data-sklo="vyp"] {
+  --glass: rgba(246, 249, 252, 0.99);
+  --glass-2: rgba(252, 253, 255, 1);
+  --okno: rgba(250, 252, 254, 1);
+  --panel-bg: rgba(242, 246, 250, 0.99);
+}
+
+/* ---------- omezené animace ---------- */
+:root[data-animace="min"] *,
+:root[data-animace="min"] *::before,
+:root[data-animace="min"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* ---------- hlavní panel ---------- */
+:root[data-panel="kompakt"] { --taskbar-h: 42px; }
+:root[data-panel="velky"] { --taskbar-h: 60px; }
+:root[data-skryt-panel="1"] { --panel-misto: 4px; }
+
+/* Skrývání panelu: odjede dolů, nechá nad sebou jen úzký proužek na najetí myší.
+   Když je otevřený některý panel (Start, kalendář, oznámení), zůstane venku —
+   kotvící tlačítko má v té chvíli třídu .active. */
+:root[data-skryt-panel="1"] .taskbar {
+  --panel-prouzek: 3px;
+  animation: none;                 /* bar-up při startu by přebilo transform */
+  transform: translateY(calc(100% - var(--panel-prouzek)));
+  transition: transform 0.22s var(--ease);
+}
+:root[data-skryt-panel="1"] .taskbar:hover,
+:root[data-skryt-panel="1"] .taskbar:focus-within { transform: none; }
+:root[data-skryt-panel="1"] .taskbar:has(.active) { transform: none; }
+
+:root[data-zarovnani="vlevo"] .taskbar { grid-template-columns: auto auto 1fr; }
+:root[data-zarovnani="vlevo"] .tb-center { justify-self: start; }
+
+/* ---------- velikost ikon na ploše ---------- */
+:root[data-ikony="male"] { --ikona-w: 78px; --ikona-h: 86px; --ikona-glyph: 38px; --ikona-obrazek: 21px; --ikona-text: 11px; }
+:root[data-ikony="velke"] { --ikona-w: 116px; --ikona-h: 124px; --ikona-glyph: 58px; --ikona-obrazek: 32px; --ikona-text: 13px; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font);
+  color: var(--txt);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body { user-select: none; cursor: default; }
+
+button, input, textarea { font-family: inherit; color: inherit; }
+input, textarea, [contenteditable] { user-select: text; -webkit-user-select: text; }
+button { background: none; border: 0; cursor: default; }
+input { outline: none; }
+
+.hidden { display: none !important; }
+.invisible { opacity: 0 !important; pointer-events: none !important; }
+
+/* ---------- vlastní scrollbar ---------- */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--hover-2);
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--stroke-hi); background-clip: padding-box; }
+
+/* ---------- ikony ---------- */
+svg.i { width: 18px; height: 18px; display: block; flex: none; }
+svg.i * { vector-effect: non-scaling-stroke; }
+
+/* ---------- vrstvy ---------- */
+.wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  transform: scale(1.04);
+  transition: filter 0.6s var(--ease), transform 0.9s var(--ease);
+}
+.wallpaper.blurred { filter: blur(26px) saturate(1.1); transform: scale(1.12); }
+.wallpaper .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.65;
+  animation: drift 26s ease-in-out infinite alternate;
+}
+.wallpaper .scenery { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(4vw, -3vh, 0) scale(1.14); }
+}
+
+.wallpaper-dim {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+.wallpaper-dim.on { opacity: 0.45; }
+
+.overlay-layer { position: fixed; inset: 0; z-index: 900; pointer-events: none; }
+.overlay-layer > * { pointer-events: auto; }
+
+.toast-layer {
+  position: fixed;
+  right: 14px;
+  bottom: calc(var(--panel-misto) + 14px);
+  z-index: 950;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.fader {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s var(--ease);
+}
+.fader.on { opacity: 1; pointer-events: all; }
+
+/* ---------- akrylové panely ---------- */
+.acrylic {
+  background: var(--glass);
+  backdrop-filter: blur(var(--blur)) saturate(1.7);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.7);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-l);
+}
+
+/* ---------- kontextové menu ---------- */
+.ctx {
+  position: absolute;
+  min-width: 226px;
+  padding: 5px;
+  border-radius: var(--r-m);
+  background: var(--glass-2);
+  backdrop-filter: blur(var(--blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.8);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-l);
+  transform-origin: top left;
+  animation: ctx-in 0.14s var(--ease-out);
+  font-size: 13.5px;
+}
+@keyframes ctx-in {
+  from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+.ctx-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 8px 11px;
+  border-radius: var(--r-s);
+  color: var(--txt);
+  text-align: left;
+}
+.ctx-item:hover { background: var(--glass-hi); }
+.ctx-item .i { width: 16px; height: 16px; opacity: 0.85; }
+.ctx-item .key { margin-left: auto; color: var(--txt-3); font-size: 12px; }
+.ctx-item.danger:hover { background: rgba(220, 70, 70, 0.22); }
+.ctx-item[disabled] { opacity: 0.38; }
+.ctx-sep { height: 1px; margin: 5px 8px; background: var(--stroke); }
+
+/* ---------- toast ---------- */
+.toast {
+  width: 330px;
+  padding: 13px 14px;
+  border-radius: var(--r-l);
+  background: var(--glass-2);
+  backdrop-filter: blur(var(--blur)) saturate(1.7);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.7);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-l);
+  display: flex;
+  gap: 12px;
+  animation: toast-in 0.34s var(--ease-out);
+  pointer-events: auto;
+}
+.toast.out { animation: toast-out 0.26s var(--ease) forwards; }
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(26px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes toast-out {
+  to { opacity: 0; transform: translateX(26px) scale(0.96); }
+}
+.toast .ic {
+  width: 32px; height: 32px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.toast h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.toast p { font-size: 12.5px; color: var(--txt-2); line-height: 1.45; }
+
+/* ---------- tlačítka ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--r-s);
+  background: var(--glass-hi);
+  border: 1px solid var(--stroke);
+  font-size: 13px;
+  transition: background 0.14s, border-color 0.14s;
+}
+.btn:hover { background: var(--hover-2); border-color: var(--stroke-hi); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--accent); color: var(--accent-text); border-color: transparent; font-weight: 600; }
+.btn.primary:hover { background: color-mix(in srgb, var(--accent) 88%, white); }
+
+/* ---------- posuvník ---------- */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 3px;
+  background: var(--hover-2);
+  cursor: default;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg-1);
+  box-shadow: 0 0 0 1px var(--accent);
+  transition: transform 0.12s;
+}
+input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.18); }
+
+/* ---------- přepínač ---------- */
+.switch {
+  width: 38px; height: 20px; flex: none;
+  border-radius: 12px;
+  background: var(--hover-2);
+  border: 1px solid var(--stroke-hi);
+  position: relative;
+  transition: background 0.18s var(--ease), border-color 0.18s;
+}
+.switch::after {
+  content: "";
+  position: absolute;
+  left: 3px; top: 50%;
+  width: 12px; height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--txt-2);
+  transition: transform 0.18s var(--ease), background 0.18s;
+}
+.switch.on { background: var(--accent); border-color: transparent; }
+.switch.on::after { transform: translateX(17px); background: #0b1410; }
+
+/* Ikony aplikací jako obrázky (icons.js → glyfAplikace, img/ikony/<id>.png). Ikony z macOS mají kolem
+   „squircle“ průhledný okraj (~10 % z každé strany), proto obrázek přesahuje dlaždici, aby velikostí
+   seděl k barevným dlaždicím ostatních aplikací. Stín a tvar má obrázek sám. */
+.ma-obrazek {
+  position: relative;
+  background: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+.ma-obrazek > .app-obr {
+  position: absolute;
+  inset: -11%;
+  width: 122%;
+  height: 122%;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}

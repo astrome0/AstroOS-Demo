@@ -1,0 +1,51 @@
+/* AstroOS — Počasí */
+.pc { display: flex; flex-direction: column; gap: 14px; height: 100%; overflow: auto; padding: 16px 18px 12px; }
+
+.pc-hledani { display: flex; gap: 8px; }
+.pc-pole {
+  flex: 1; height: 34px; padding: 0 12px;
+  border: 1px solid var(--stroke); border-radius: var(--r-s);
+  background: var(--pole); color: var(--txt); font: inherit; font-size: 13px; outline: none;
+}
+.pc-pole:focus { border-color: var(--accent); }
+
+.pc-obsah { display: flex; flex-direction: column; gap: 12px; }
+.pc-zprava { padding: 30px 10px; text-align: center; color: var(--txt-2); font-size: 13px; }
+
+.pc-ted {
+  padding: 20px 16px 18px; text-align: center;
+  border: 1px solid var(--stroke); border-radius: var(--r-l);
+  background: var(--glass-hi);
+}
+.pc-misto { font-size: 17px; font-weight: 600; color: var(--txt); }
+.pc-kraj { font-size: 12px; color: var(--txt-3); }
+.pc-ikona { font-size: 60px; line-height: 1; margin-top: 10px; }
+.pc-teplota { font-size: 56px; font-weight: 200; line-height: 1.1; color: var(--txt); }
+.pc-popis { font-size: 13.5px; color: var(--txt); }
+.pc-detail { margin-top: 2px; font-size: 12px; color: var(--txt-2); }
+
+.pc-hodiny {
+  display: flex; gap: 4px; overflow-x: auto; padding: 8px 6px;
+  border: 1px solid var(--stroke); border-radius: var(--r-l); background: var(--glass-hi);
+}
+.pc-hodina { flex: none; width: 46px; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11.5px; color: var(--txt-2); }
+.pc-hodina b { font-size: 13px; font-weight: 600; color: var(--txt); }
+.pc-hodina-ic { font-size: 18px; }
+
+.pc-dny { display: flex; flex-direction: column; gap: 2px; }
+.pc-den {
+  display: grid; grid-template-columns: 68px 30px 34px 1fr 34px;
+  align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: var(--r-s); font-size: 13px; color: var(--txt);
+}
+.pc-den:nth-child(odd) { background: var(--glass-hi); }
+.pc-den-ic { font-size: 17px; }
+.pc-min { text-align: right; color: var(--txt-3); }
+.pc-max { font-weight: 600; }
+.pc-pruh { position: relative; height: 5px; border-radius: 5px; background: var(--hover); }
+.pc-pruh i {
+  position: absolute; top: 0; bottom: 0; border-radius: 5px;
+  background: linear-gradient(90deg, #4aa3e8, var(--accent), #f0b95c);
+}
+
+.pc-zdroj { margin-top: auto; text-align: center; font-size: 11px; color: var(--txt-3); }

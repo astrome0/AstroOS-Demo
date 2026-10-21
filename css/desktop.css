@@ -1,0 +1,233 @@
+/* AstroOS — plocha, ikony, výběr */
+
+.desktop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  animation: desk-in 0.6s var(--ease-out);
+}
+@keyframes desk-in {
+  from { opacity: 0; transform: scale(1.03); }
+  to   { opacity: 1; transform: none; }
+}
+
+.icon-layer {
+  position: absolute;
+  inset: 0 0 var(--panel-misto) 0;
+  z-index: 1;
+}
+
+.dicon {
+  position: absolute;
+  width: calc(var(--ikona-w) - 8px);
+  padding: 8px 4px 7px;
+  border-radius: var(--r-s);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+.dicon .glyph {
+  width: var(--ikona-glyph); height: var(--ikona-glyph);
+  display: grid; place-items: center;
+  border-radius: 11px;
+  color: #fff;
+  box-shadow: 0 4px 12px var(--sunk-2), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.dicon .glyph .i { width: var(--ikona-obrazek); height: var(--ikona-obrazek); }
+.dicon .label {
+  font-size: var(--ikona-text);
+  line-height: 1.32;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85), 0 0 14px rgba(0, 0, 0, 0.6);
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+.dicon:hover { background: var(--hover-2); border-color: var(--hover); }
+.dicon.sel { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.dicon.sel:hover { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+.dicon.dragging { opacity: 0.72; z-index: 5; transform: scale(1.04); }
+.dicon.launch { animation: icon-pop 0.32s var(--ease); }
+@keyframes icon-pop {
+  40% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.dicon .rename {
+  width: 100%;
+  min-height: 20px;
+  text-align: center;
+  font: inherit;
+  font-size: var(--ikona-text);
+  line-height: 1.3;
+  padding: 1px 3px;
+  border-radius: 3px;
+  border: 1px solid var(--accent);
+  background: #10171b;
+  color: var(--txt);
+  cursor: text;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  field-sizing: content;
+}
+
+/* soubory a složky z ~/Plocha: bez barevné dlaždice, jako ikony souborů ve Windows */
+.dicon .glyph { position: relative; }
+.dicon.soubor .glyph { background: none; box-shadow: none; }
+.dicon.soubor .glyph > svg { width: 100%; height: 100%; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35)); }
+.dicon.soubor .ikona-stranky { width: 84% !important; }
+.dicon.soubor .nahled-souboru { width: 100%; height: 100%; }
+
+/* šipka zástupce v levém dolním rohu */
+.dicon-sipka {
+  position: absolute;
+  left: -3px; bottom: -3px;
+  width: 17px; height: 17px;
+  display: grid; place-items: center;
+  border-radius: 4px;
+  background: #fff;
+  color: #1f6fd0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.dicon-sipka .i { width: 13px !important; height: 13px !important; stroke-width: 2.4; }
+:root[data-ikony="male"] .dicon-sipka { width: 14px; height: 14px; }
+:root[data-ikony="male"] .dicon-sipka .i { width: 11px !important; height: 11px !important; }
+
+.dicon.dragging { pointer-events: none; }
+.icon-layer.skryte .dicon { display: none; }
+.icon-layer.obnova .dicon { animation: ikona-obnova 0.28s ease-out; }
+@keyframes ikona-obnova { 0% { opacity: 0.25; } 100% { opacity: 1; } }
+
+/* ---------- náhled obrázku (plocha, Soubory, tažení) ---------- */
+.nahled-souboru {
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.nahled-souboru img {
+  max-width: 100%; max-height: 100%;
+  border-radius: 3px;
+  border: 2px solid #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  object-fit: cover;
+  background: #fff;
+}
+
+/* ---------- tažení souborů (prenos.js) ---------- */
+.pr-duch {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 3000;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  pointer-events: none;
+  will-change: transform;
+}
+.pr-obr {
+  position: relative;
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  opacity: 0.85;
+}
+.pr-obr > svg, .pr-obr > .nahled-souboru { width: 100%; height: 100%; }
+.pr-obr .ikona-stranky { width: 82%; }
+.pr-app {
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border-radius: 11px;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+.pr-app .i { width: 24px; height: 24px; }
+.pr-pocet {
+  position: absolute;
+  left: 38px; top: -4px;
+  min-width: 20px; height: 20px;
+  padding: 0 6px;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.pr-text {
+  padding: 4px 9px;
+  border-radius: 5px;
+  background: var(--glass-2);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-m);
+  color: var(--txt);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.pr-duch.nejde .pr-text { color: #ff9a8f; }
+.pr-duch.nejde .pr-obr { opacity: 0.45; }
+body.pr-tahne, body.pr-tahne * { cursor: default !important; }
+
+/* cíl, na který se právě pouští */
+.pr-cil { position: relative; }
+.dicon.pr-cil { background: var(--accent-soft) !important; border-color: var(--accent) !important; }
+.fm-item.pr-cil, .fm-place.pr-cil { background: var(--accent-soft) !important; outline: 1px solid var(--accent); outline-offset: -1px; }
+.fm-view.pr-cil { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent); }
+
+/* ---------- vnořené nabídky ---------- */
+.ctx-item .key .i { width: 13px; height: 13px; opacity: 0.7; }
+.ctx-item.ma-sub .key { display: flex; }
+.ctx-sub { animation-duration: 0.1s; }
+
+/* ---------- okno Vlastnosti ---------- */
+.vl { display: flex; flex-direction: column; height: 100%; padding: 20px 22px 16px; font-size: 12.5px; }
+.vl-hlava { display: flex; align-items: center; gap: 16px; }
+.vl-ic { width: 46px; height: 46px; flex: none; display: grid; place-items: center; }
+.vl-ic > svg, .vl-ic > .nahled-souboru { width: 100%; height: 100%; }
+.vl-ic .ikona-stranky { width: 82%; }
+.vl-jmeno {
+  flex: 1;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: var(--r-s);
+  border: 1px solid var(--stroke-hi);
+  background: var(--pole);
+  color: var(--txt);
+  font: inherit;
+  font-size: 13px;
+}
+.vl-jmeno:focus { border-color: var(--accent); }
+.vl-sep { height: 1px; margin: 12px 0; background: var(--stroke); }
+.vl-r { display: grid; grid-template-columns: 104px 1fr; gap: 10px; padding: 4px 0; }
+.vl-r span { color: var(--txt-3); }
+.vl-r b { font-weight: 500; word-break: break-word; }
+.vl-tlacitka { display: flex; justify-content: flex-end; gap: 8px; margin-top: auto; padding-top: 16px; }
+.vl-tlacitka .btn { min-width: 84px; justify-content: center; }
+
+.select-band {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* ---------- panel s widgety (rychlý pohled) ---------- */
+.peek {
+  position: absolute;
+  left: 8px;
+  bottom: calc(var(--taskbar-h) + 8px);
+  width: 330px;
+  padding: 14px;
+  border-radius: var(--r-l);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform-origin: bottom left;
+  animation: panel-up 0.24s var(--ease-out);
+}

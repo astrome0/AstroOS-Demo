@@ -1,0 +1,134 @@
+/* AstroOS — webové aplikace (js/webaplikace.js): web v okně, které vypadá jako aplikace */
+
+.wa { position: relative; height: 100%; overflow: hidden; background: var(--okno); }
+.wa-ramec {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: transparent;
+}
+
+/* Úvodní obrazovka jako u aplikací z obchodu: barva aplikace, velká ikona, tečky načítání */
+.wa-uvod {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 34px;
+  color: #fff;
+  transition: opacity 0.3s ease;
+}
+.wa-uvod.pryc { opacity: 0; pointer-events: none; }
+.wa-uvod[hidden] { display: none; }
+.wa-uvod-ic { animation: wa-ic 0.45s cubic-bezier(0.2, 0.8, 0.3, 1.2); }
+.wa-uvod-ic .i { width: 84px; height: 84px; stroke-width: 1.3; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.25)); }
+@keyframes wa-ic { from { opacity: 0; transform: scale(0.82); } }
+.wa-uvod-toc { display: flex; gap: 7px; height: 6px; }
+.wa-uvod-toc i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.2;
+  animation: wa-tecka 1.3s ease-in-out infinite;
+}
+.wa-uvod-toc i:nth-child(2) { animation-delay: 0.12s; }
+.wa-uvod-toc i:nth-child(3) { animation-delay: 0.24s; }
+.wa-uvod-toc i:nth-child(4) { animation-delay: 0.36s; }
+.wa-uvod-toc i:nth-child(5) { animation-delay: 0.48s; }
+@keyframes wa-tecka { 0%, 60%, 100% { opacity: 0.2; transform: none; } 30% { opacity: 1; transform: translateY(-4px); } }
+:root[data-animace="min"] .wa-uvod-toc i { animation: none; opacity: 0.6; }
+
+/* Kryt přes aplikaci: chyba připojení, firewall, O aplikaci, rekordy */
+.wa-kryt {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--okno);
+  overflow: auto;
+}
+.wa-kryt[hidden] { display: none; }
+.wa-kryt.wa-dialog {
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(6px);
+  animation: wa-kryt 0.18s ease-out;
+}
+@keyframes wa-kryt { from { opacity: 0; } }
+
+.wa-chyba { max-width: 420px; text-align: center; }
+.wa-chyba h2 { margin: 16px 0 8px; font-size: 18px; font-weight: 600; }
+.wa-chyba p { margin: 0; color: var(--txt-2); line-height: 1.55; }
+.wa-chyba-ic {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--hover);
+  color: var(--txt-2);
+}
+.wa-chyba-ic .i { width: 30px; height: 30px; }
+.wa-akce { display: flex; gap: 8px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+
+.wa-karta {
+  width: min(430px, 100%);
+  padding: 22px 24px;
+  border-radius: var(--r-l, 14px);
+  background: var(--okno);
+  border: 1px solid var(--stroke);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  animation: wa-karta 0.22s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+}
+@keyframes wa-karta { from { opacity: 0; transform: translateY(10px) scale(0.97); } }
+.wa-karta > p { color: var(--txt-2); line-height: 1.55; margin: 14px 0 0; }
+.wa-karta .wa-akce { justify-content: flex-end; }
+.wa-karta-hlava { display: flex; align-items: center; gap: 14px; }
+.wa-karta-hlava h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.wa-karta-hlava span { color: var(--txt-3); font-size: 12px; }
+.wa-karta-ic {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+.wa-karta-ic .i { width: 28px; height: 28px; }
+
+.wa-tabulka { margin-top: 16px; border-top: 1px solid var(--stroke); }
+.wa-tabulka > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--stroke);
+  font-size: 12.5px;
+}
+.wa-tabulka span { color: var(--txt-3); flex: none; }
+.wa-tabulka b { font-weight: 500; text-align: right; }
+
+.wa-rekordy { margin-top: 16px; display: grid; gap: 6px; max-height: 300px; overflow: auto; }
+.wa-rekord {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: var(--hover);
+  font-size: 12.5px;
+}
+.wa-rekord b { font-size: 15px; color: var(--accent); }
+.wa-rekord span:last-child { color: var(--txt-3); font-size: 11.5px; }
+.wa-rekord-druh { font-weight: 500; }

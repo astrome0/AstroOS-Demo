@@ -1,0 +1,174 @@
+/* AstroOS — Diktafon */
+
+.dk { height: 100%; display: flex; min-height: 0; background: var(--okno); }
+
+/* ---------- studio (nahrávání) ---------- */
+.dk-studio {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, #ef6a5a 12%, transparent), transparent 62%),
+    var(--sunk);
+  transition: background 0.3s;
+}
+.dk.zaznam .dk-studio {
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, #ef6a5a 24%, transparent), transparent 62%),
+    var(--sunk);
+}
+.dk-vlna { width: 100%; max-width: 440px; height: 96px; }
+.dk-cas {
+  font-size: 44px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--txt);
+  font-variant-numeric: tabular-nums;
+}
+.dk-stav { font-size: 12px; color: var(--txt-3); min-height: 16px; }
+.dk.zaznam .dk-stav { color: #ef6a5a; }
+
+.dk-ovladani { display: flex; align-items: center; gap: 18px; margin-top: 6px; }
+.dk-ovl {
+  display: grid; place-items: center;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  color: var(--txt-2);
+  background: var(--hover);
+}
+.dk-ovl .i { width: 18px; height: 18px; }
+.dk-ovl:hover:not(:disabled) { background: var(--hover-2); color: var(--txt); }
+.dk-ovl:disabled { opacity: 0.3; }
+
+/* velké tlačítko: kruh s červenou tečkou, při nahrávání se tečka změní na čtverec */
+.dk-nahrat {
+  display: grid; place-items: center;
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  border: 3px solid var(--stroke-hi);
+  background: var(--okno);
+  transition: transform 0.14s var(--ease), border-color 0.2s;
+}
+.dk-nahrat:hover { transform: scale(1.05); border-color: #ef6a5a; }
+.dk-tecka {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: #ef6a5a;
+  box-shadow: 0 6px 20px color-mix(in srgb, #ef6a5a 45%, transparent);
+  transition: all 0.2s var(--ease);
+}
+.dk-nahrat.nahrava .dk-tecka { width: 24px; height: 24px; border-radius: 6px; }
+.dk.zaznam .dk-nahrat .dk-tecka { animation: dk-tep 1.6s ease-in-out infinite; }
+@keyframes dk-tep { 50% { box-shadow: 0 0 0 10px color-mix(in srgb, #ef6a5a 18%, transparent); } }
+
+.dk-dole { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--txt-3); }
+.dk-mic-ic .i { width: 14px; height: 14px; display: block; }
+.dk-mic {
+  max-width: 260px;
+  padding: 5px 8px;
+  border-radius: var(--r-s);
+  background: var(--pole);
+  border: 1px solid var(--stroke);
+  color: var(--txt-2);
+  font-size: 12px;
+}
+.dk-mic:disabled { opacity: 0.5; }
+.dk-misto { font-size: 11px; color: var(--txt-3); }
+.dk-misto.malo { color: #e0a24a; }
+
+/* ---------- knihovna ---------- */
+.dk-knihovna {
+  flex: none;
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid var(--stroke);
+}
+.dk-hlavicka {
+  flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 8px 8px 14px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--txt-3);
+  border-bottom: 1px solid var(--stroke);
+}
+.dk-slozka { display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--r-s); color: var(--txt-3); }
+.dk-slozka:hover { background: var(--hover); color: var(--txt); }
+.dk-slozka .i { width: 15px; height: 15px; }
+
+.dk-seznam { flex: 1; overflow: auto; padding: 6px; }
+.dk-radek {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--r-s);
+  text-align: left;
+}
+.dk-radek:hover { background: var(--hover); }
+.dk-radek.on { background: var(--accent-soft); }
+.dk-radek.nova { animation: dk-nova 1.4s var(--ease-out); }
+@keyframes dk-nova { from { background: color-mix(in srgb, #ef6a5a 28%, transparent); } }
+.dk-r-ic {
+  display: grid; place-items: center;
+  width: 28px; height: 28px; flex: none;
+  border-radius: 50%;
+  background: var(--hover);
+  color: var(--txt-2);
+}
+.dk-radek.on .dk-r-ic { background: var(--accent); color: var(--accent-text); }
+.dk-r-ic .i { width: 13px; height: 13px; }
+.dk-r-jmeno { flex: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.dk-r-jmeno b { font-size: 12.5px; font-weight: 560; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dk-r-jmeno i { font-size: 10.5px; font-style: normal; color: var(--txt-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dk-delka { font-size: 11px; color: var(--txt-3); font-variant-numeric: tabular-nums; }
+.dk-prejmenovat {
+  width: 100%;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  background: var(--pole);
+  color: var(--txt);
+  font-size: 12.5px;
+}
+
+.dk-prazdno {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 48px 20px;
+  text-align: center;
+  color: var(--txt-3);
+}
+.dk-prazdno .i { width: 30px; height: 30px; opacity: 0.6; margin-bottom: 4px; }
+.dk-prazdno b { font-size: 13px; color: var(--txt-2); font-weight: 560; }
+.dk-prazdno span { font-size: 11.5px; }
+
+/* ---------- přehrávač dole ---------- */
+.dk-prehravac {
+  flex: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--stroke);
+  background: var(--sunk);
+}
+.dk-p-hrat {
+  display: grid; place-items: center;
+  width: 34px; height: 34px; flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+.dk-p-hrat:disabled { opacity: 0.35; }
+.dk-p-hrat .i { width: 15px; height: 15px; }
+.dk-p-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.dk-p-nazev { font-size: 12px; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dk-p-radka { display: flex; align-items: center; gap: 8px; }
+.dk-p-pruh { flex: 1; height: 5px; border-radius: 3px; background: var(--hover-2); cursor: pointer; overflow: hidden; }
+.dk-p-pruh i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 3px; }
+.dk-p-cas { font-size: 10.5px; color: var(--txt-3); font-variant-numeric: tabular-nums; white-space: nowrap; }

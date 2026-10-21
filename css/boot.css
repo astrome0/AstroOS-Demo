@@ -1,0 +1,178 @@
+/* AstroOS — POST obrazovka a spouštěcí logo */
+
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: #05070a;
+  color: #cfe6d6;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.58;
+  transition: opacity 0.5s var(--ease);
+}
+.boot.fade { opacity: 0; pointer-events: none; }
+
+/* --- POST --- */
+.post {
+  position: absolute;
+  inset: 0;
+  padding: 34px 40px;
+  overflow: hidden;
+  text-shadow: 0 0 12px rgba(120, 230, 160, 0.22);
+}
+.post .row { white-space: pre-wrap; }
+.post .dim { color: #63776b; }
+.post .ok { color: var(--accent); }
+.post .warn { color: #e6c05a; }
+.post .hl { color: #dff3e6; }
+.post .cursor {
+  display: inline-block;
+  width: 8px; height: 15px;
+  translate: 0 2px;
+  background: var(--accent);
+  animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.post-hint {
+  position: absolute;
+  right: 40px; bottom: 30px;
+  color: #45564d;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+/* jemné CRT scanlines */
+.boot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 3px);
+  opacity: 0.8;
+}
+
+/* --- logo / splash --- */
+.splash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: radial-gradient(90% 70% at 50% 42%, #0d1a15 0%, #05070a 70%);
+  animation: fade-in 0.6s var(--ease);
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.splash .logo {
+  width: 92px; height: 92px;
+  filter: drop-shadow(0 0 26px rgba(70, 195, 111, 0.45));
+  animation: logo-pop 0.9s var(--ease-out);
+}
+@keyframes logo-pop {
+  from { opacity: 0; transform: scale(0.82); }
+  to   { opacity: 1; transform: none; }
+}
+.splash .logo path.stroke {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: draw 1.5s var(--ease-out) forwards;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.splash .name {
+  margin-top: 22px;
+  font-family: var(--font);
+  font-size: 25px;
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  color: #e8f4ec;
+  animation: fade-up 0.7s 0.2s var(--ease-out) backwards;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* kroužek teček jako ve Windows */
+.spinner {
+  position: relative;
+  width: 60px; height: 60px;
+  margin-top: 56px;
+}
+.spinner i {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 5px; height: 5px;
+  margin: -2.5px;
+  border-radius: 50%;
+  background: #cfe6d6;
+  animation: orbit 2.4s linear infinite;
+}
+.spinner i:nth-child(1) { animation-delay: 0s; }
+.spinner i:nth-child(2) { animation-delay: -0.16s; }
+.spinner i:nth-child(3) { animation-delay: -0.32s; }
+.spinner i:nth-child(4) { animation-delay: -0.48s; }
+.spinner i:nth-child(5) { animation-delay: -0.64s; }
+@keyframes orbit {
+  0%   { transform: rotate(0deg) translateX(26px) scale(0.6); opacity: 0.25; }
+  18%  { opacity: 1; transform: rotate(80deg) translateX(26px) scale(1); }
+  55%  { opacity: 1; }
+  75%  { opacity: 0.25; transform: rotate(300deg) translateX(26px) scale(0.6); }
+  100% { transform: rotate(360deg) translateX(26px) scale(0.6); opacity: 0.25; }
+}
+
+.splash .status {
+  margin-top: 26px;
+  height: 18px;
+  font-family: var(--font);
+  font-size: 13px;
+  color: #8fa89a;
+  letter-spacing: 0.02em;
+  transition: opacity 0.3s;
+}
+
+.splash .ver {
+  position: absolute;
+  bottom: 26px;
+  font-family: var(--font);
+  font-size: 11.5px;
+  color: #3f5148;
+  letter-spacing: 0.06em;
+}
+
+/* --- vypínací obrazovka --- */
+.shutdown {
+  position: fixed;
+  inset: 0;
+  z-index: 990;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  background: #05070a;
+  color: #c9d8cf;
+  font-family: var(--font);
+  animation: fade-in 0.5s var(--ease);
+}
+.shutdown .msg { font-size: 17px; font-weight: 300; letter-spacing: 0.05em; }
+.power-btn {
+  width: 78px; height: 78px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--hover-2);
+  color: var(--txt-2);
+  transition: all 0.2s var(--ease);
+}
+.power-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 34px rgba(70, 195, 111, 0.3);
+  transform: scale(1.05);
+}
+.power-btn .i { width: 30px; height: 30px; }

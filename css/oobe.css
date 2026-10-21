@@ -1,0 +1,599 @@
+/* AstroOS — instalace a první nastavení (OOBE), reset počítače, aktivace */
+
+.oobe {
+  /* vlastní barvy: instalace má svůj vzhled nezávislý na motivu (světlý se zapne až volbou) */
+  --o-karta: rgba(24, 31, 36, 0.92);
+  --o-txt: #eef3f5;
+  --o-txt-2: #a9b7bf;
+  --o-txt-3: #71828c;
+  --o-stroke: rgba(255, 255, 255, 0.1);
+  --o-pole: rgba(255, 255, 255, 0.06);
+  --o-pole-hrana: rgba(255, 255, 255, 0.35);
+  --o-hover: rgba(255, 255, 255, 0.07);
+  --o-btn: rgba(255, 255, 255, 0.09);
+  --o-btn-hover: rgba(255, 255, 255, 0.14);
+  --o-zavoj: rgba(4, 8, 10, 0.5);
+  --o-chyba: #ff9d9d;
+
+  position: fixed;
+  inset: 0;
+  z-index: 960;
+  font-family: var(--font);
+  color: var(--o-txt);
+  user-select: none;
+}
+.oobe[data-svetly] {
+  --o-karta: rgba(250, 251, 251, 0.94);
+  --o-txt: #18201d;
+  --o-txt-2: #4d5a55;
+  --o-txt-3: #7c8984;
+  --o-stroke: rgba(0, 0, 0, 0.1);
+  --o-pole: rgba(255, 255, 255, 0.9);
+  --o-pole-hrana: rgba(0, 0, 0, 0.35);
+  --o-hover: rgba(0, 0, 0, 0.05);
+  --o-btn: rgba(0, 0, 0, 0.06);
+  --o-btn-hover: rgba(0, 0, 0, 0.1);
+  --o-zavoj: rgba(235, 240, 238, 0.35);
+  --o-chyba: #c62f2f;
+}
+.oobe.velky-text { font-size: 118%; }
+.oobe.velky-text h1 { font-size: 32px; }
+
+.oobe .spinner { margin: 0; width: 46px; height: 46px; }
+.oobe .spinner i { background: currentColor; }
+@keyframes oobe-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes oobe-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ------------------------------------------------ společné prvky */
+.oobe-btn {
+  min-width: 112px;
+  height: 34px;
+  padding: 0 18px;
+  border-radius: 6px;
+  background: var(--o-btn);
+  border: 1px solid var(--o-stroke);
+  color: var(--o-txt);
+  font-size: 13.5px;
+  transition: background 0.14s, transform 0.1s;
+}
+.oobe-btn:hover:not(:disabled) { background: var(--o-btn-hover); }
+.oobe-btn:active:not(:disabled) { transform: scale(0.98); }
+.oobe-btn.hlavni { background: var(--accent); border-color: transparent; color: var(--accent-text); font-weight: 600; }
+.oobe-btn.hlavni:hover:not(:disabled) { filter: brightness(1.08); }
+.oobe-btn:disabled { opacity: 0.45; cursor: default; }
+.oobe-btn.velke { height: 44px; min-width: 170px; font-size: 16px; }
+
+.oobe-pole {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  height: 36px;
+  margin: 0 0 10px;
+  padding: 0 12px;
+  border-radius: 5px;
+  background: var(--o-pole);
+  border: 1px solid var(--o-stroke);
+  border-bottom: 2px solid var(--o-pole-hrana);
+  color: var(--o-txt);
+  font-size: 14px;
+  user-select: text;
+}
+.oobe-pole:focus { outline: none; border-bottom-color: var(--accent); }
+.oobe-pole::placeholder { color: var(--o-txt-3); }
+.oobe-pole:disabled { opacity: 0.6; }
+.oobe-klic { font-family: var(--mono); letter-spacing: 0.06em; text-transform: uppercase; max-width: 380px; }
+.oobe-kod { font-family: var(--mono); font-size: 22px; letter-spacing: 0.5em; height: 46px; max-width: 160px; text-align: center; }
+
+.oobe-select {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  height: 34px;
+  margin: 0 0 10px;
+  padding: 0 10px;
+  border-radius: 5px;
+  background: var(--o-pole);
+  border: 1px solid var(--o-stroke);
+  color: var(--o-txt);
+  font-size: 13.5px;
+}
+.oobe-select option { background: #fff; color: #111; }
+
+.oobe-chyba { min-height: 0; max-height: 0; overflow: hidden; color: var(--o-chyba); font-size: 13px; transition: max-height 0.2s; }
+.oobe-chyba.on { max-height: 60px; margin: -2px 0 10px; }
+
+.oobe-odkaz {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  color: var(--accent);
+  font-size: 13px;
+}
+.oobe-odkaz:hover { text-decoration: underline; text-underline-offset: 3px; }
+.oobe-odkaz .i { width: 15px; height: 15px; }
+
+.oobe-zatrh { display: flex; align-items: center; gap: 9px; margin: 8px 0; font-size: 13.5px; cursor: pointer; }
+.oobe-zatrh input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+.oobe-drobne { font-size: 12.5px; color: var(--o-txt-3); line-height: 1.5; margin: 6px 0 10px; }
+
+.oobe-seznam {
+  position: relative;
+  overflow-y: auto;
+  max-width: 440px;
+  border-radius: 6px;
+  border: 1px solid var(--o-stroke);
+  background: var(--o-pole);
+}
+.oobe-polozka {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--o-txt);
+  border-left: 3px solid transparent;
+}
+.oobe-polozka:hover { background: var(--o-hover); }
+.oobe-polozka.on { background: var(--accent-soft); border-left-color: var(--accent); }
+.oobe-polozka small { color: var(--o-txt-3); font-size: 12px; }
+
+/* ------------------------------------------------ fáze A: instalační program */
+.oobe[data-faze="setup"] {
+  background:
+    radial-gradient(1200px 700px at 18% 20%, rgba(70, 195, 111, 0.28), transparent 60%),
+    radial-gradient(1000px 800px at 85% 90%, rgba(45, 127, 184, 0.35), transparent 60%),
+    linear-gradient(150deg, #07141a, #0c2430 55%, #061015);
+}
+.oobe-setup {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.oobe-okno {
+  --o-txt: #1c2421;
+  --o-txt-2: #4a5752;
+  --o-txt-3: #6f7c77;
+  --o-stroke: rgba(0, 0, 0, 0.12);
+  --o-pole: #fff;
+  --o-pole-hrana: rgba(0, 0, 0, 0.4);
+  --o-hover: rgba(0, 0, 0, 0.05);
+  --o-btn: #fdfdfd;
+  --o-btn-hover: #eef1f0;
+  --o-chyba: #c62f2f;
+  width: min(760px, 94vw);
+  min-height: 480px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f4f6f5;
+  color: var(--o-txt);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  animation: oobe-in 0.35s var(--ease-out);
+}
+.oobe-okno-lista {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 34px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  background: #e8ecea;
+  border-bottom: 1px solid var(--o-stroke);
+}
+.oobe-okno-logo { width: 16px; height: 16px; }
+.oobe-okno-telo { flex: 1; padding: 26px 40px 18px; overflow-y: auto; }
+.oobe-okno-telo h2 { font-size: 19px; font-weight: 600; margin: 0 0 12px; }
+.oobe-okno-telo p { font-size: 13.5px; line-height: 1.55; color: var(--o-txt-2); margin: 0 0 12px; }
+.oobe-okno-pata {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--o-stroke);
+  background: #eceff0;
+}
+.oobe-setup-hlava { display: flex; align-items: center; gap: 12px; margin: 10px 0 34px; font-size: 30px; font-weight: 300; }
+.oobe-setup-logo { width: 44px; height: 44px; }
+.oobe-setup-logo.velke { width: 96px; height: 96px; }
+.oobe-radek { display: grid; grid-template-columns: 230px 1fr; align-items: center; gap: 12px; font-size: 13.5px; }
+.oobe-radek .oobe-select { margin: 5px 0; }
+.oobe-instalovat { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 50px 0 40px; }
+.oobe-setup-nazev { font-size: 34px; font-weight: 300; margin-top: -4px; }
+
+.oobe-kroky { display: flex; gap: 34px; font-size: 13px; color: rgba(255, 255, 255, 0.55); }
+.oobe-kroky span { display: flex; align-items: center; gap: 8px; }
+.oobe-kroky b {
+  display: grid; place-items: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  font-size: 11.5px;
+}
+.oobe-kroky .on { color: #fff; }
+.oobe-kroky .on b { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.oobe-kroky .hotovo { color: rgba(255, 255, 255, 0.8); }
+
+.oobe-setup-cekani { display: flex; flex-direction: column; align-items: center; gap: 22px; color: #dbe8e1; font-size: 15px; animation: oobe-fade 0.4s; }
+
+.oobe-licence {
+  height: 230px;
+  overflow-y: auto;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--o-txt-2);
+  background: #fff;
+  border: 1px solid var(--o-stroke);
+  border-radius: 4px;
+  user-select: text;
+}
+
+.oobe-volba {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  text-align: left;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  color: var(--o-txt);
+}
+.oobe-volba:hover { background: #e3f3e8; border-color: rgba(43, 155, 83, 0.35); }
+.oobe-volba b { font-size: 14.5px; font-weight: 600; color: #22603a; }
+.oobe-volba span { font-size: 12.5px; line-height: 1.5; color: var(--o-txt-2); }
+
+.oobe-disky { border: 1px solid var(--o-stroke); border-radius: 4px; background: #fff; margin-bottom: 10px; }
+.oobe-disk {
+  display: grid;
+  grid-template-columns: 1fr 110px 100px 76px;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 12.5px;
+  color: var(--o-txt);
+}
+.oobe-disk.hlava { color: var(--o-txt-3); border-bottom: 1px solid var(--o-stroke); }
+.oobe-disk span:first-child { display: flex; align-items: center; gap: 8px; }
+.oobe-disk .i { width: 16px; height: 16px; color: #5c6a64; }
+button.oobe-disk:hover { background: #eef6f1; }
+button.oobe-disk.on { background: #d5ecdd; }
+.oobe-disk-akce { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+
+.oobe-postup { list-style: none; margin: 4px 0 26px; padding: 0; display: flex; flex-direction: column; gap: 9px; font-size: 13.5px; color: var(--o-txt-3); }
+.oobe-postup li { display: flex; align-items: center; gap: 10px; }
+.oobe-postup li.bezi { color: var(--o-txt); font-weight: 600; }
+.oobe-postup li.ok { color: var(--o-txt-2); }
+.oobe-fajfka { width: 16px; height: 16px; position: relative; }
+.oobe-postup li.ok .oobe-fajfka::after {
+  content: ""; position: absolute; left: 4px; top: 1px; width: 5px; height: 10px;
+  border: solid var(--accent-deep); border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.oobe-postup li.bezi .oobe-fajfka::after {
+  content: ""; position: absolute; inset: 2px; border-radius: 50%;
+  border: 2px solid var(--accent); border-right-color: transparent;
+  animation: oobe-tocka 0.8s linear infinite;
+}
+@keyframes oobe-tocka { to { transform: rotate(360deg); } }
+.oobe-pruh-celk { height: 6px; border-radius: 3px; background: rgba(0, 0, 0, 0.08); overflow: hidden; }
+.oobe-pruh-celk i { display: block; height: 100%; width: 0; background: var(--accent-deep); transition: width 0.5s; }
+
+/* ------------------------------------------------ černá obrazovka / restart */
+.oobe[data-faze="cerna"], .oobe[data-faze="ahoj"] { background: #000; }
+.oobe-restart {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 54px;
+  color: #e7efea;
+  animation: oobe-fade 0.6s;
+}
+.oobe-restart-logo { width: 104px; height: 104px; }
+.oobe-restart-t { font-size: 17px; font-weight: 300; letter-spacing: 0.02em; min-height: 24px; margin-top: -26px; }
+.oobe-reset { z-index: 1001; }
+
+/* ------------------------------------------------ fáze B: nastavení */
+.oobe[data-faze="oobe"] { background: var(--o-zavoj); backdrop-filter: blur(46px) saturate(1.3); -webkit-backdrop-filter: blur(46px) saturate(1.3); }
+.oobe-scena { position: absolute; inset: 0 0 56px; display: grid; place-items: center; }
+.oobe-karta {
+  width: min(1040px, 94vw);
+  height: min(640px, calc(100vh - 110px));
+  display: grid;
+  grid-template-columns: 40% 60%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--o-karta);
+  border: 1px solid var(--o-stroke);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+  animation: oobe-in 0.45s var(--ease-out);
+}
+.oobe-karta.cekani { grid-template-columns: 1fr; place-items: center; }
+.oobe-strpeni { display: flex; flex-direction: column; align-items: center; gap: 22px; font-size: 18px; font-weight: 300; animation: oobe-fade 0.5s; text-align: center; }
+.oobe-strpeni small { font-size: 13px; color: var(--o-txt-3); margin-top: -10px; }
+
+.oobe-levy {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 45%, var(--accent-soft), transparent 62%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.08));
+  border-right: 1px solid var(--o-stroke);
+}
+.oobe-ilu { position: relative; width: 260px; height: 260px; display: grid; place-items: center; animation: oobe-in 0.6s var(--ease-out); }
+.oobe-ilu-kruh {
+  width: 168px; height: 168px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(145deg, var(--accent), #2d7fb8);
+  color: #fff;
+  box-shadow: 0 20px 60px var(--accent-soft), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  animation: oobe-vznaseni 5s ease-in-out infinite;
+}
+.oobe-ilu-kruh .i { width: 78px; height: 78px; stroke-width: 1.5; }
+.oobe-ilu-orbita {
+  position: absolute; inset: 6px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--o-stroke);
+  animation: oobe-tocka 40s linear infinite;
+}
+.oobe-ilu > i { position: absolute; border-radius: 50%; background: var(--accent); opacity: 0.7; }
+.oobe-ilu .t1 { width: 12px; height: 12px; top: 22px; right: 46px; animation: oobe-vznaseni 4s ease-in-out infinite; }
+.oobe-ilu .t2 { width: 8px; height: 8px; bottom: 36px; left: 30px; background: #2d7fb8; animation: oobe-vznaseni 6s ease-in-out infinite reverse; }
+.oobe-ilu .t3 { width: 6px; height: 6px; top: 70px; left: 18px; animation: oobe-vznaseni 3.5s ease-in-out infinite; }
+@keyframes oobe-vznaseni { 50% { transform: translateY(-9px); } }
+
+.oobe-pravy { display: flex; flex-direction: column; min-height: 0; padding: 50px 48px 26px; animation: oobe-in 0.4s var(--ease-out); }
+.oobe-pravy h1 { font-size: 27px; font-weight: 600; line-height: 1.25; margin: 0 0 10px; }
+.oobe-popis { font-size: 14px; line-height: 1.55; color: var(--o-txt-2); margin: 0 0 18px; white-space: pre-line; }
+.oobe-obsah { flex: 1; min-height: 0; overflow-y: auto; padding: 2px 4px 2px 0; }
+.oobe-tlac { display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding-top: 16px; }
+.oobe-tlac-vlevo { margin-right: auto; }
+
+.oobe-dolni { position: absolute; left: 22px; bottom: 14px; display: flex; gap: 6px; }
+.oobe-dolni button {
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 8px;
+  color: var(--o-txt);
+  opacity: 0.8;
+}
+.oobe-dolni button:hover { background: var(--o-hover); opacity: 1; }
+
+.oobe-volby { display: flex; flex-direction: column; gap: 10px; }
+.oobe-volba-karta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  text-align: left;
+  border-radius: 8px;
+  border: 1px solid var(--o-stroke);
+  background: var(--o-pole);
+  color: var(--o-txt);
+}
+.oobe-volba-karta:hover { background: var(--o-hover); }
+.oobe-volba-karta.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.oobe-volba-karta b { display: block; font-size: 14.5px; margin-bottom: 3px; }
+.oobe-volba-karta span { font-size: 12.5px; color: var(--o-txt-2); line-height: 1.45; }
+.oobe-volba-ic { flex: none; width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: var(--accent-soft); color: var(--accent); }
+
+/* Wi-Fi */
+.oobe-wifi { display: flex; flex-direction: column; gap: 4px; max-width: 460px; }
+.oobe-sit { border-radius: 6px; border: 1px solid transparent; }
+.oobe-sit.otevrena { background: var(--o-pole); border-color: var(--o-stroke); }
+.oobe-sit.pripojena .oobe-sit-t small { color: var(--accent); }
+.oobe-sit-hlava { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; text-align: left; color: var(--o-txt); border-radius: 6px; }
+.oobe-sit-hlava:hover { background: var(--o-hover); }
+.oobe-sit-hlava > .i { width: 15px; height: 15px; color: var(--o-txt-3); }
+.oobe-sit-t { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.oobe-sit-t b { font-size: 14px; font-weight: 600; }
+.oobe-sit-t small { font-size: 12px; color: var(--o-txt-3); }
+.oobe-sit-ic .i { width: 22px; height: 22px; }
+.oobe-sit-ic.s1 { opacity: 0.4; } .oobe-sit-ic.s2 { opacity: 0.6; } .oobe-sit-ic.s3 { opacity: 0.8; }
+.oobe-sit-detail { padding: 2px 14px 14px 46px; display: flex; flex-direction: column; align-items: flex-start; }
+.oobe-sit-detail .oobe-pole { max-width: 320px; }
+.oobe-sit-tl { align-self: flex-end; }
+.oobe-sit-stav { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--o-txt-2); }
+.oobe-sit-stav .spinner { width: 26px; height: 26px; }
+.oobe-sit-stav .spinner i { width: 3px; height: 3px; }
+.oobe-sit-ok { display: flex; align-items: center; gap: 6px; color: var(--accent); font-size: 13.5px; margin-bottom: 8px; }
+.oobe-router {
+  position: relative;
+  margin: 8px 0 10px;
+  padding: 10px 14px;
+  width: 260px;
+  border-radius: 6px;
+  background: #f1f1ea;
+  color: #222;
+  font-size: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  transform: rotate(-1.5deg);
+  animation: oobe-in 0.3s var(--ease-out);
+}
+.oobe-router-hlava { font-weight: 700; padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid #ccc; }
+.oobe-router-radky { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; }
+.oobe-router-radky b { font-family: var(--mono); }
+.oobe-router-car {
+  height: 22px; margin-top: 8px;
+  background: repeating-linear-gradient(90deg, #222 0 2px, transparent 2px 4px, #222 4px 5px, transparent 5px 8px, #222 8px 11px, transparent 11px 12px);
+}
+.oobe-nemam { color: var(--o-txt-3); }
+
+/* zájmy */
+.oobe-chipy { display: flex; flex-wrap: wrap; gap: 10px; max-width: 480px; }
+.oobe-chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--o-stroke);
+  background: var(--o-pole);
+  color: var(--o-txt);
+  font-size: 13.5px;
+}
+.oobe-chip .i { width: 17px; height: 17px; }
+.oobe-chip:hover { background: var(--o-hover); }
+.oobe-chip.on { background: var(--accent); color: var(--accent-text); border-color: transparent; }
+
+/* soukromí */
+.oobe-soukromi { display: flex; flex-direction: column; gap: 6px; padding-right: 6px; }
+.oobe-souk { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 12px 14px; border-radius: 6px; background: var(--o-pole); border: 1px solid var(--o-stroke); }
+.oobe-souk b { display: block; font-size: 14px; margin-bottom: 3px; }
+.oobe-souk span { font-size: 12.5px; color: var(--o-txt-2); line-height: 1.4; }
+.oobe-anone { flex: none; display: flex; border-radius: 6px; overflow: hidden; border: 1px solid var(--o-stroke); }
+.oobe-anone button { padding: 6px 14px; font-size: 13px; color: var(--o-txt-2); }
+.oobe-anone button.on { background: var(--accent); color: var(--accent-text); font-weight: 600; }
+
+/* vzhled */
+.oobe-vzhled { display: flex; flex-direction: column; gap: 16px; }
+.oobe-vzhled-blok h4 { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--o-txt-2); }
+.oobe-vzhled-sk { display: flex; flex-wrap: wrap; gap: 10px; }
+.oobe-vzhled-v {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 6px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-size: 12px;
+  color: var(--o-txt-2);
+}
+.oobe-vzhled-v:hover { background: var(--o-hover); }
+.oobe-vzhled-v.on { border-color: var(--accent); color: var(--o-txt); }
+.oobe-nahled { position: relative; width: 104px; height: 64px; border-radius: 6px; background: #151b1f; overflow: hidden; }
+.oobe-nahled i { position: absolute; border-radius: 3px; background: #2b353b; }
+.oobe-nahled i:nth-child(1) { left: 10px; top: 10px; width: 56px; height: 34px; }
+.oobe-nahled i:nth-child(2) { left: 40px; top: 20px; width: 54px; height: 32px; background: #36434a; }
+.oobe-nahled i:nth-child(3) { left: 0; right: 0; bottom: 0; height: 8px; border-radius: 0; background: #0c1114; }
+.oobe-nahled.svetly { background: #dfe6e3; }
+.oobe-nahled.svetly i { background: #fff; }
+.oobe-nahled.svetly i:nth-child(2) { background: #f4f6f5; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); }
+.oobe-nahled.svetly i:nth-child(3) { background: #eef1f0; }
+.oobe-vzhled-sk.barvy .oobe-vzhled-v { padding: 4px; border-radius: 50%; }
+.oobe-barva { display: block; width: 30px; height: 30px; border-radius: 50%; }
+.oobe-vzhled-sk.tapety { gap: 6px; }
+.oobe-vzhled-sk.tapety .oobe-vzhled-v { padding: 3px; }
+.oobe-tapeta { width: 76px; height: 46px; border-radius: 5px; }
+.oobe-roh { display: block; width: 64px; height: 44px; border: 2px solid var(--o-txt-3); border-radius: 8px; border-right: 0; border-bottom: 0; margin: 6px 0 0 18px; }
+.oobe-roh.ostre { border-radius: 0; }
+.oobe-roh.kulate { border-radius: 18px 0 0 0; }
+
+/* ------------------------------------------------ „Ahoj“ */
+.oobe-ahoj {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #0d3b2a, #0b2c48, #2a1450, #0d3b2a);
+  background-size: 400% 400%;
+  animation: oobe-ahoj-pozadi 14s ease-in-out infinite;
+}
+@keyframes oobe-ahoj-pozadi { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.oobe-ahoj-t {
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.7s, transform 0.7s var(--ease-out);
+  text-align: center;
+  padding: 0 24px;
+}
+.oobe-ahoj-t.vidi { opacity: 1; transform: none; }
+.oobe-ahoj-pruh { position: absolute; bottom: 14%; width: 220px; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.15); overflow: hidden; }
+.oobe-ahoj-pruh i { display: block; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.85); transform-origin: left; animation: oobe-ahoj-pruh var(--ahoj-delka, 30s) linear forwards; }
+@keyframes oobe-ahoj-pruh { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ------------------------------------------------ dialog a upozornění */
+.oobe-dialog-bg {
+  position: absolute; inset: 0; z-index: 5;
+  display: grid; place-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  animation: oobe-fade 0.2s;
+}
+.oobe-dialog-bg.samostatny { position: fixed; z-index: 1000; }
+.oobe-dialog {
+  --o-txt: #1c2421; --o-txt-2: #4a5752; --o-txt-3: #6f7c77;
+  --o-stroke: rgba(0, 0, 0, 0.12); --o-pole: #fff; --o-pole-hrana: rgba(0, 0, 0, 0.4);
+  --o-btn: #fdfdfd; --o-btn-hover: #eef1f0; --o-chyba: #c62f2f;
+  width: min(440px, 92vw);
+  padding: 22px 24px 18px;
+  border-radius: 8px;
+  background: #f7f9f8;
+  color: var(--o-txt);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  animation: oobe-in 0.25s var(--ease-out);
+}
+.oobe-dialog h3 { margin: 0 0 10px; font-size: 17px; font-weight: 600; }
+.oobe-dialog p { margin: 0 0 16px; font-size: 13.5px; line-height: 1.55; color: var(--o-txt-2); }
+.oobe-dialog-tl { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+
+.oobe-notif {
+  position: fixed;
+  top: 18px; right: 18px;
+  z-index: 1002;
+  display: flex;
+  gap: 12px;
+  width: 330px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(28, 34, 38, 0.95);
+  color: #eef3f5;
+  font-family: var(--font);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  animation: oobe-notif 0.45s var(--ease-out);
+}
+.oobe-notif.pryc { opacity: 0; transform: translateX(30px); transition: all 0.35s; }
+.oobe-notif-ic { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 9px; background: var(--accent); color: var(--accent-text); }
+.oobe-notif b { display: block; font-size: 13px; margin-bottom: 3px; }
+.oobe-notif p { margin: 0; font-size: 13px; line-height: 1.45; color: #c4d0d6; user-select: text; }
+@keyframes oobe-notif { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+
+/* ------------------------------------------------ vodoznak neaktivovaného systému (aktivace.js) */
+/* nad okny i panelem, ale kliky propouští — jako ve Windows; pod nabídkami a oznámeními */
+.aktivace-vodoznak {
+  position: fixed;
+  right: 28px;
+  bottom: calc(var(--panel-misto, 56px) + 30px);
+  z-index: 890;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 360px;
+  color: rgba(255, 255, 255, 0.52);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  font-family: var(--font);
+  pointer-events: none;
+  user-select: none;
+}
+:root[data-motiv="svetly"] .aktivace-vodoznak { color: rgba(40, 46, 50, 0.45); text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6); }
+.aktivace-vodoznak b { font-size: 21px; font-weight: 400; }
+.aktivace-vodoznak span { font-size: 13.5px; }
+
+/* ------------------------------------------------ úzké obrazovky */
+@media (max-width: 760px) {
+  .oobe-karta { grid-template-columns: 1fr; height: calc(100vh - 80px); }
+  .oobe-levy { display: none; }
+  .oobe-pravy { padding: 28px 22px 18px; }
+  .oobe-radek { grid-template-columns: 1fr; gap: 0; }
+  .oobe-okno-telo { padding: 20px; }
+}
+
+/* „Práce na aktualizacích“ (js/aktualizace.js) */
+.akt-obrazovka { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.akt-obrazovka .akt-pozn { font-size: 14px; font-weight: 300; opacity: 0.6; }

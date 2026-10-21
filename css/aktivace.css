@@ -1,0 +1,167 @@
+/* AstroOS — obchod s licencemi v Nově (astro://koupit, aktivace.js) */
+
+.ak { position: relative; min-height: 100%; padding: 0 0 30px; animation: view-in 0.18s var(--ease-out); }
+
+.ak-hlava {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 28px;
+  background: var(--okno);
+  border-bottom: 1px solid var(--stroke);
+  backdrop-filter: blur(16px);
+  font-size: 15px;
+}
+.ak-logo { width: 26px; height: 26px; }
+.ak-hlava-zust { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--txt-2); }
+.ak-hlava-zust .i { width: 15px; height: 15px; }
+.ak-hlava-zust b { color: var(--txt); }
+
+.ak-hero { text-align: center; padding: 38px 28px 26px; }
+.ak-hero h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
+.ak-hero p { margin: 10px auto 0; max-width: 60ch; font-size: 14px; line-height: 1.55; color: var(--txt-2); }
+
+.ak-karty { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; max-width: 1040px; margin: 0 auto; padding: 0 28px; }
+.ak-karta {
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: 22px 20px 18px;
+  border-radius: var(--r-l);
+  background: var(--glass-hi);
+  border: 1px solid var(--stroke);
+}
+.ak-karta.doporuceno { border-color: var(--accent); box-shadow: 0 10px 40px var(--accent-soft); }
+.ak-stitek {
+  position: absolute; top: -10px; left: 18px;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--accent); color: var(--accent-text);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+}
+.ak-karta h3 { font-size: 16px; font-weight: 600; line-height: 1.3; }
+.ak-popis { margin-top: 6px; min-height: 36px; font-size: 12.5px; line-height: 1.45; color: var(--txt-3); }
+.ak-cena { margin: 14px 0 12px; font-size: 24px; font-weight: 600; }
+.ak-karta ul { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.ak-karta li { display: flex; gap: 8px; font-size: 12.5px; color: var(--txt-2); }
+.ak-karta li .i { flex: none; width: 15px; height: 15px; color: var(--accent); }
+
+.ak-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  height: 36px; padding: 0 18px;
+  border-radius: var(--r-s);
+  background: var(--hover);
+  border: 1px solid var(--stroke);
+  font-size: 13.5px;
+  color: var(--txt);
+}
+.ak-btn:hover:not(:disabled) { background: var(--hover-2); }
+.ak-btn.hlavni { background: var(--accent); color: var(--accent-text); border-color: transparent; font-weight: 600; }
+.ak-btn.hlavni:hover:not(:disabled) { filter: brightness(1.08); }
+.ak-btn:disabled { opacity: 0.55; }
+.ak-btn.velke { height: 44px; width: 100%; font-size: 15px; margin-top: 6px; }
+.ak-btn .i { width: 16px; height: 16px; }
+
+.ak-moje { max-width: 1040px; margin: 30px auto 0; padding: 0 28px; }
+.ak-moje h4 { font-size: 13px; color: var(--txt-2); margin-bottom: 8px; }
+.ak-moje-r { display: flex; align-items: center; gap: 14px; padding: 9px 12px; border-radius: var(--r-s); background: var(--sunk); margin-bottom: 4px; font-size: 12.5px; }
+.ak-moje-r code { font-family: var(--mono); letter-spacing: 0.04em; user-select: text; }
+.ak-moje-r small { margin-left: auto; color: var(--txt-3); }
+
+.ak-zpet { display: inline-flex; align-items: center; gap: 4px; margin: 18px 28px 0; font-size: 13px; color: var(--txt-2); }
+.ak-zpet:hover { color: var(--txt); }
+.ak-zpet .i { width: 15px; height: 15px; }
+
+.ak-pokladna { display: grid; grid-template-columns: 1fr 320px; gap: 26px; max-width: 920px; margin: 10px auto 0; padding: 0 28px; align-items: start; }
+.ak-sloupec h2 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+.ak-sloupec h4, .ak-souhrn h4 { font-size: 13px; font-weight: 600; color: var(--txt-2); margin: 20px 0 10px; }
+.ak-l { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; font-size: 12.5px; color: var(--txt-2); }
+.ak-pole {
+  height: 36px; padding: 0 12px;
+  border-radius: var(--r-s);
+  background: var(--pole);
+  border: 1px solid var(--stroke);
+  border-bottom: 2px solid var(--stroke-hi);
+  font-size: 14px; color: var(--txt);
+  user-select: text;
+}
+.ak-pole:focus { outline: none; border-bottom-color: var(--accent); }
+.ak-metody { display: flex; flex-direction: column; gap: 8px; }
+.ak-metoda {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--r-m);
+  border: 1px solid var(--stroke);
+  cursor: pointer;
+}
+.ak-metoda:hover { background: var(--hover); }
+.ak-metoda.on { border-color: var(--accent); background: var(--accent-soft); }
+.ak-metoda.zakazano { opacity: 0.5; cursor: not-allowed; }
+.ak-metoda input { accent-color: var(--accent); }
+.ak-metoda-ic { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 9px; background: var(--sunk); color: var(--accent); }
+.ak-metoda b { display: block; font-size: 13.5px; }
+.ak-metoda small { font-size: 12px; color: var(--txt-3); }
+.ak-souhlas { display: flex; gap: 10px; margin: 18px 0 6px; font-size: 12.5px; line-height: 1.45; color: var(--txt-2); cursor: pointer; }
+.ak-souhlas input { flex: none; margin-top: 2px; accent-color: var(--accent); }
+.ak-chyba { min-height: 18px; margin: 4px 0; font-size: 12.5px; color: #e86a6a; }
+
+.ak-souhrn { position: sticky; top: 70px; padding: 4px 20px 18px; border-radius: var(--r-l); background: var(--glass-hi); border: 1px solid var(--stroke); }
+.ak-polozka { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; margin-bottom: 8px; border-bottom: 1px solid var(--stroke); }
+.ak-logo-m { width: 40px; height: 40px; flex: none; }
+.ak-polozka b { display: block; font-size: 13.5px; line-height: 1.3; }
+.ak-polozka small { font-size: 12px; color: var(--txt-3); }
+.ak-r { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; color: var(--txt-2); }
+.ak-r.celkem { margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--stroke); font-size: 16px; font-weight: 600; color: var(--txt); }
+
+.ak-zpracovani {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  background: color-mix(in srgb, var(--okno) 82%, transparent);
+  backdrop-filter: blur(6px);
+  font-size: 14px;
+  animation: view-in 0.2s;
+}
+.ak-spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--stroke-hi); border-top-color: var(--accent); animation: ak-toc 0.8s linear infinite; }
+@keyframes ak-toc { to { transform: rotate(360deg); } }
+.ak-3ds {
+  width: min(380px, 90%);
+  padding: 22px 24px;
+  border-radius: var(--r-l);
+  background: #f6f8fb;
+  color: #1a2230;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+}
+.ak-3ds-hlava { display: flex; align-items: center; gap: 8px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #dde3ea; color: #1d4fa0; }
+.ak-3ds p { font-size: 13px; line-height: 1.5; margin-bottom: 8px; color: #3a4556; }
+.ak-3ds .ak-pole { background: #fff; color: #111; border-color: #cbd3dd; width: 100%; margin-top: 6px; }
+.ak-kod { font-family: var(--mono); font-size: 20px; letter-spacing: 0.4em; text-align: center; height: 44px; }
+.ak-3ds-tl { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+.ak-3ds .ak-btn:not(.hlavni) { background: #e8edf3; color: #1a2230; border-color: #d3dae3; }
+
+.ak-hotovo { text-align: center; padding: 60px 28px 20px; }
+.ak-hotovo-ic { width: 72px; height: 72px; margin: 0 auto 18px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--accent-text); animation: ak-pop 0.5s var(--ease-out); }
+.ak-hotovo-ic .i { width: 36px; height: 36px; stroke-width: 2.4; }
+@keyframes ak-pop { from { transform: scale(0.4); opacity: 0; } }
+.ak-hotovo h1 { font-size: 28px; font-weight: 600; }
+.ak-hotovo p { margin: 10px auto 22px; max-width: 54ch; font-size: 14px; line-height: 1.55; color: var(--txt-2); }
+.ak-hotovo-tl { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+
+.ak-pata { margin-top: 36px; padding: 0 28px; text-align: center; font-size: 11.5px; color: var(--txt-3); }
+
+@media (max-width: 760px) {
+  .ak-pokladna { grid-template-columns: 1fr; }
+  .ak-souhrn { position: static; }
+}
+
+/* tarif AI (limit tokenů) — pod edicemi, dvě karty uprostřed */
+.ak-ai { margin-top: 26px; border-top: 1px solid var(--stroke); }
+.ak-karty-ai { max-width: 1040px; }
+.ak-cena small { font-size: 13px; font-weight: 400; color: var(--txt-3); }
+.ak-ai .ak-stitek { white-space: nowrap; }
+
+/* ceník tarifů AI */
+.ak-cenik { max-width: 1040px; margin: 26px auto 0; padding: 0 28px; }
+.ak-cenik h4 { margin-bottom: 10px; font-size: 14px; }
+.ak-cenik table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ak-cenik th { text-align: left; padding: 8px 10px; font-weight: 600; color: var(--txt-3); border-bottom: 1px solid var(--stroke); }
+.ak-cenik td { padding: 9px 10px; border-bottom: 1px solid var(--stroke); font-variant-numeric: tabular-nums; }
+.ak-cenik tr.ak-cenik-muj td { background: var(--accent-soft); }
+.ak-cenik p { margin-top: 10px; font-size: 12px; line-height: 1.5; color: var(--txt-3); }
+@media (max-width: 640px) { .ak-cenik { overflow-x: auto; } }

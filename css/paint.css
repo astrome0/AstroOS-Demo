@@ -1,0 +1,113 @@
+/* AstroOS — Malování */
+
+.pt { height: 100%; display: flex; flex-direction: column; background: var(--okno); }
+
+/* ---------- pruh nástrojů ---------- */
+.pt-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--stroke);
+  background: var(--glass-hi);
+}
+.pt-grp {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 10px;
+  border-right: 1px solid var(--stroke);
+}
+.pt-grp:last-child { border-right: 0; padding-right: 0; }
+.pt-grp .lbl { font-size: 10.5px; color: var(--txt-3); padding: 0 4px; }
+
+.pt-btn {
+  display: flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 9px;
+  border-radius: var(--r-s);
+  font-size: 12px;
+  color: var(--txt-2);
+  transition: background 0.14s, color 0.14s;
+}
+.pt-btn .i { width: 16px; height: 16px; }
+.pt-btn:hover { background: var(--hover); color: var(--txt); }
+.pt-btn:disabled { opacity: 0.35; pointer-events: none; }
+.pt-btn.on { background: var(--accent-soft); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent-soft); }
+.pt-btn.ic { padding: 0; width: 30px; justify-content: center; }
+
+/* ---------- barvy ---------- */
+.pt-pair { position: relative; width: 44px; height: 36px; flex: none; }
+.pt-sw {
+  position: absolute;
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px var(--stroke-hi), 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+.pt-sw.prim { left: 0; top: 0; z-index: 2; }
+.pt-sw.sec { right: 0; bottom: 0; }
+.pt-swap { width: 26px; height: 26px; display: grid; place-items: center; border-radius: var(--r-s); color: var(--txt-3); }
+.pt-swap:hover { background: var(--hover); color: var(--txt); }
+.pt-swap .i { width: 15px; height: 15px; }
+
+.pt-paleta { display: grid; grid-template-rows: repeat(2, 17px); grid-auto-flow: column; gap: 3px; }
+.pt-barva {
+  width: 17px; height: 17px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+  transition: transform 0.12s;
+}
+.pt-barva:hover { transform: scale(1.18); }
+.pt-vlastni { width: 26px; height: 26px; padding: 0; border: 0; background: none; border-radius: 5px; cursor: pointer; }
+.pt-vlastni::-webkit-color-swatch-wrapper { padding: 2px; }
+.pt-vlastni::-webkit-color-swatch { border: 0; border-radius: 4px; box-shadow: 0 0 0 1px var(--stroke-hi); }
+
+/* ---------- tloušťka ---------- */
+.pt-sirka { width: 104px; accent-color: var(--accent); }
+.pt-tecka {
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--sunk);
+}
+.pt-tecka i { display: block; border-radius: 50%; background: var(--txt); }
+
+/* ---------- plátno ---------- */
+.pt-stage {
+  flex: 1;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background:
+    linear-gradient(45deg, var(--sunk) 25%, transparent 25%) 0 0 / 22px 22px,
+    linear-gradient(-45deg, var(--sunk) 25%, transparent 25%) 0 11px / 22px 22px,
+    linear-gradient(45deg, transparent 75%, var(--sunk) 75%) 11px -11px / 22px 22px,
+    linear-gradient(-45deg, transparent 75%, var(--sunk) 75%) -11px 0 / 22px 22px,
+    var(--bg-1);
+}
+.pt-paper {
+  position: relative;
+  line-height: 0;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--stroke-hi);
+}
+.pt-paper canvas { display: block; touch-action: none; }
+.pt-ov { position: absolute; inset: 0; cursor: crosshair; }
+.pt-ov.kapatko { cursor: cell; }
+
+/* ---------- patička ---------- */
+.pt-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 27px;
+  padding: 0 12px;
+  font-size: 11px;
+  color: var(--txt-3);
+  border-top: 1px solid var(--stroke);
+  background: var(--sunk);
+}
+.pt-foot .pt-jmeno { color: var(--txt-2); }
+.pt-foot .pt-spacer { flex: 1; }

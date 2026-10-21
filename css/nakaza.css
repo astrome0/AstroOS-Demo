@@ -1,0 +1,136 @@
+/* AstroOS — „nákaza“ z podezřelých appek z Obchodu (js/nakaza.js). Předpona nk-. Nic nebliká. */
+
+/* ---------------------------------------------------------------- Mince Generátor */
+.nk-mince {
+  position: absolute; right: 30px; bottom: calc(var(--panel-misto, 50px) + 18px);
+  width: 140px; height: 80px;
+  pointer-events: none;
+}
+.nk-mince span {
+  position: absolute; font-size: 24px; line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .45));
+  animation: nk-dopad .5s var(--ease-out) both;
+}
+@keyframes nk-dopad { from { opacity: 0; translate: 0 -40px; } to { opacity: 1; translate: 0 0; } }
+.nk-cip { display: flex; align-items: center; gap: 5px; padding: 0 10px; font-size: 12px; color: var(--txt); }
+.nk-cip b { font-weight: 600; white-space: nowrap; }
+
+/* ---------------------------------------------------------------- Fotky z dovolené: tapeta */
+.nk-tapeta {
+  position: fixed; inset: 0; z-index: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+.nk-tapeta svg { width: 100%; height: 100%; display: block; }
+
+/* ---------------------------------------------------------------- FotoMistr: barvy a knírky */
+html[data-nakaza-foto] {
+  --accent: #b04ae0 !important;
+  --accent-deep: #8a2fc0 !important;
+  --accent-soft: #b04ae033 !important;
+  --accent-text: #ffffff !important;
+}
+html[data-nakaza-foto] body::after {
+  content: ''; position: fixed; inset: 0; z-index: 899; pointer-events: none;
+  backdrop-filter: hue-rotate(30deg) saturate(1.2);
+  -webkit-backdrop-filter: hue-rotate(30deg) saturate(1.2);
+}
+html[data-nakaza-foto] .dicon .glyph::after {
+  content: ''; position: absolute; left: 50%; top: 58%;
+  width: 62%; height: 22%; translate: -50% 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Cpath d='M50 12 C40 0 22 2 14 12 C10 17 4 18 0 14 C4 26 22 30 36 22 C44 18 48 16 50 16 C52 16 56 18 64 22 C78 30 96 26 100 14 C96 18 90 17 86 12 C78 2 60 0 50 12Z' fill='%232a1a10'/%3E%3C/svg%3E") center / contain no-repeat;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- Stáhni si víc RAM: líná okna */
+html[data-nakaza-ram] .win:not(.closing):not(.minimizing) { animation: nk-lag 1.5s steps(4, end) both; }
+html[data-nakaza-ram] .win-body { animation: nk-obsah 1.5s steps(1, end) both; }
+@keyframes nk-lag {
+  0% { opacity: 0; transform: scale(.9) translateY(14px); }
+  60% { opacity: .55; transform: scale(.96) translateY(6px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes nk-obsah { from { opacity: 0; } to { opacity: 1; } }
+.mo-row.nk-proces { color: #ef6a5a; }
+.mo-row.nk-proces b { color: #ef6a5a; }
+
+/* ---------------------------------------------------------------- SuperAntivir ZDARMA */
+.nk-av {
+  height: 100%; display: flex; flex-direction: column; gap: 12px;
+  padding: 16px 18px; overflow: auto;
+  background: var(--okno); color: var(--txt);
+}
+.nk-av-hlava { display: flex; align-items: center; gap: 12px; }
+.nk-av-hlava > div:first-child { font-size: 38px; }
+.nk-av-hlava h3 { margin: 0; font-size: 18px; color: #ef6a5a; }
+.nk-av-hlava span { font-size: 12px; color: var(--txt-2); }
+.nk-av-seznam {
+  flex: 1; min-height: 0; overflow: auto;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 8px; border-radius: var(--r-s); background: var(--hover);
+  font-size: 12.5px;
+}
+.nk-av-seznam > div { display: flex; align-items: center; gap: 8px; }
+.nk-av-seznam span { color: #f0b95c; }
+.nk-av-seznam b { flex: 1; font-weight: 600; }
+.nk-av-seznam i { font-style: normal; font-size: 11px; font-weight: 700; color: #ef6a5a; }
+.nk-av-pointa { font-size: 64px; text-align: center; margin: auto; }
+.nk-av-stav { margin: 0; font-size: 13px; color: var(--txt-2); }
+.nk-av-akce { display: flex; justify-content: flex-end; gap: 8px; }
+
+/* ---------------------------------------------------------------- spam oken „VYHRÁL JSI“ */
+.nk-vrstva { position: fixed; inset: 0; z-index: 940; pointer-events: none; }
+.nk-popup {
+  position: absolute; width: 256px; pointer-events: auto;
+  border-radius: 10px; overflow: hidden;
+  background: #fff; color: #1a1a1a;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .5);
+  border: 2px solid #ef6a5a;
+  animation: nk-pop .18s var(--ease-out);
+}
+@keyframes nk-pop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+.nk-popup-bar { display: flex; align-items: center; justify-content: space-between; padding: 3px 4px 3px 9px; background: #d8d8d8; font-size: 11px; color: #555; }
+.nk-popup-x { width: 20px; height: 18px; border-radius: 3px; background: #ef6a5a; color: #fff; font-size: 14px; line-height: 1; }
+.nk-popup-x:hover { background: #d9513f; }
+.nk-popup-telo { padding: 14px 14px 16px; text-align: center; }
+.nk-popup-em { font-size: 40px; line-height: 1; }
+.nk-popup-telo h4 { margin: 8px 0 4px; font-size: 15px; color: #c0392b; }
+.nk-popup-telo p { margin: 0 0 12px; font-size: 12px; color: #444; }
+.nk-popup-btn { width: 100%; height: 34px; border-radius: 6px; background: linear-gradient(145deg, #54d98a, #1e9c54); color: #fff; font-weight: 700; font-size: 13px; }
+.nk-popup-btn:hover { filter: brightness(1.07); }
+
+/* ---------------------------------------------------------------- uzamčená plocha (vtip) */
+.nk-zamek {
+  position: fixed; inset: 0; z-index: 960;
+  display: grid; place-items: center; padding: 20px;
+  background: rgba(20, 6, 6, .82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  animation: fade-in .2s var(--ease);
+}
+.nk-zamek-box {
+  width: min(520px, 94vw); padding: 30px 28px; text-align: center;
+  border-radius: 16px; background: #1a1012; border: 1px solid #ef6a5a55;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .6); color: #f3e9e9;
+}
+.nk-zamek-em { font-size: 64px; line-height: 1; }
+.nk-zamek-box h1 { margin: 12px 0 10px; font-size: 26px; letter-spacing: 1px; color: #ff6a5a; }
+.nk-zamek-box p { margin: 0 auto 20px; max-width: 420px; font-size: 14px; line-height: 1.5; color: #d8c8c8; }
+.nk-zamek-akce { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.nk-zamek-akce .btn { height: 38px; padding: 0 18px; }
+.nk-zamek-x { margin-top: 16px; font-size: 12px; color: #a98; }
+.nk-zamek-x:hover { color: #d8c8c8; }
+
+/* ---------------------------------------------------------------- únos Novy */
+.nb-unos .nb-unos-znak, .nb-unos-znak { font-size: 60px; }
+.nb-unos h1 { color: #e0a90f; }
+.nb-unos-tile { border-color: #e0a90f55 !important; }
+.nb-unos-tile .nb-tile-ic { font-size: 22px; display: grid; place-items: center; }
+.nb-unos-pozn { margin-top: 20px; font-size: 12px; color: var(--txt-2); }
+.nb-unos-reklama {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px; padding: 12px 14px;
+  border-radius: 10px; border: 1px dashed #e0a90f;
+  background: linear-gradient(145deg, #e0a90f18, #ef6a5a12);
+}
+.nb-unos-reklama .nb-unos-znacka { font-size: 10px; font-weight: 700; color: #c0392b; background: #ef6a5a22; padding: 3px 7px; border-radius: 5px; }
+.nb-unos-reklama b { font-size: 14px; }
+.nb-unos-reklama span { display: block; font-size: 12px; color: var(--txt-2); }
