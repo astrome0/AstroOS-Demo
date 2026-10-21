@@ -78,7 +78,7 @@ export const pocasiApp = {
 
   mount(body, win) {
     let ac = null;
-    const pole = el('input.pc-pole', { placeholder: 'Město, třeba Brno', autocomplete: 'off', spellcheck: 'false' });
+    const pole = el('input.pc-pole', { placeholder: 'Město, třeba Plzeň', autocomplete: 'off', spellcheck: 'false' });
     const obsah = el('div.pc-obsah');
     const hledat = (e) => {
       e.preventDefault();

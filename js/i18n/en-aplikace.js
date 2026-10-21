@@ -31,7 +31,7 @@ export const EN_APLIKACE = {
   'Praha…': 'Prague…',
   'Služba počasí odpověděla chybou {n}.': 'The weather service returned error {n}.',
   'Město „{x}“ jsem nenašel.': 'I couldn’t find the city “{x}”.',
-  'Město, třeba Brno': 'City, e.g. Brno',
+  'Město, třeba Plzeň': 'City, e.g. Plzeň',
   'dnes': 'today',
   'pocitově {x}': 'feels like {x}',
   'vítr {x} km/h': 'wind {x} km/h',

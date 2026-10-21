@@ -32,34 +32,34 @@ export const SABLONY = [
     id: 'zivotopis', nazev: 'Životopis',
     html: (jmeno = 'Jan Novák') => `
 <h5 style="text-align: left;">${jmeno}</h5>
-<div style="color: rgb(89, 89, 89);">Brno · jan.novak@astroos.cz · +420 777 123 456</div>
+<div style="color: rgb(89, 89, 89);">Pardubice · jan.novak@astroos.cz · +420 777 123 456</div>
 <p><br></p>
 <h1>Profil</h1>
-<p>Zvídavý student se zájmem o programování, 3D grafiku a tvorbu her. Rád se učím nové věci a dotahuji projekty do konce.</p>
+<p>Spolehlivý a komunikativní člověk s praxí v zákaznické podpoře a logistice. Rád organizuji práci týmu a hledám jednodušší řešení.</p>
 <h1>Zkušenosti</h1>
-<h3>Vlastní projekty · 2024 – dosud</h3>
-<ul><li>Operační systém v prohlížeči (HTML, CSS, JavaScript)</li><li>Mody a servery pro Minecraft</li><li>Hra v Roblox Studiu pro více hráčů</li></ul>
-<h3>Brigáda · léto 2025</h3>
-<p>Pomoc s IT v rodinné firmě — instalace počítačů, nastavení sítě a tiskáren.</p>
+<h3>Koordinátor zákaznické podpory · Ukázková firma s.r.o. · 2021 – dosud</h3>
+<ul><li>Vedení týmu pěti lidí</li><li>Vyřizování reklamací a dotazů zákazníků</li><li>Tvorba návodů a odpovědí na časté otázky</li></ul>
+<h3>Skladník · Logistika Příklad a.s. · 2017 – 2021</h3>
+<p>Příjem a výdej zboží, inventury, práce se skladovým systémem.</p>
 <h1>Vzdělání</h1>
-<h3>Základní škola · 2017 – 2026</h3>
-<p>Zaměření na matematiku a informatiku.</p>
+<h3>Střední odborná škola · obor Obchodník · 2013 – 2017</h3>
+<p>Maturita z ekonomiky a obchodní korespondence.</p>
 <h1>Dovednosti</h1>
-<table class="ps-tab ps-tab-bez"><tbody><tr><td>JavaScript, HTML, CSS</td><td>●●●●○</td></tr><tr><td>Lua (Roblox)</td><td>●●●○○</td></tr><tr><td>Angličtina</td><td>●●●●○</td></tr><tr><td>Linux</td><td>●●●○○</td></tr></tbody></table>`,
+<table class="ps-tab ps-tab-bez"><tbody><tr><td>Komunikace se zákazníky</td><td>●●●●●</td></tr><tr><td>Práce s tabulkami</td><td>●●●●○</td></tr><tr><td>Angličtina</td><td>●●●○○</td></tr><tr><td>Němčina</td><td>●●○○○</td></tr></tbody></table>`,
   },
   {
     id: 'dopis', nazev: 'Dopis',
     html: (jmeno = 'Jan Novák') => `
 <div>${jmeno}</div>
-<div>Masarykova 12</div>
-<div>602 00 Brno</div>
+<div>Lipová 8</div>
+<div>530 02 Pardubice</div>
 <p><br></p>
 <div>Vážená paní</div>
 <div>Jana Dvořáková</div>
 <div>Náměstí Míru 5</div>
 <div>120 00 Praha 2</div>
 <p><br></p>
-<p style="text-align: right;">V Brně dne ${dnes()}</p>
+<p style="text-align: right;">V Pardubicích dne ${dnes()}</p>
 <p><b>Věc: Žádost o …</b></p>
 <p>Vážená paní Dvořáková,</p>
 <p>obracím se na Vás s prosbou o … Sem napište, proč dopis píšete. Držte se jednoho tématu a buďte struční.</p>

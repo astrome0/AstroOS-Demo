@@ -189,7 +189,7 @@ const faktura = sablona((t, s, autor) => {
   t.z('E2', 'Číslo faktury:').z('F2', "'2026-0142").z('E3', 'Datum vystavení:').z('F3', '=DNES()').z('E4', 'Datum splatnosti:').z('F4', '=F3+14');
   t.nf('F3:F4', 'd.m.yyyy').s('E2:E4', { barva: '#595959', h: 'r' }).s('F2:F4', { b: true, h: 'r' });
   t.z('B6', 'Dodavatel').s('B6', { b: true, barva: A[0] }).z('E6', 'Odběratel').s('E6', { b: true, barva: A[0] });
-  t.sloupec('B7', [autor || 'Jan Novák', 'Hlavní 12', '602 00 Brno', 'IČO: 12345678']);
+  t.sloupec('B7', [autor || 'Jan Novák', 'Hlavní 12', '530 02 Pardubice', 'IČO: 12345678']);
   t.sloupec('E7', ['Firma s.r.o.', 'Nádražní 5', '110 00 Praha 1', 'IČO: 87654321']);
   t.radek('B13', ['Popis', 'Množství', 'Jednotka', 'Cena za jednotku', 'Celkem']);
   const pol = [['Tvorba webové stránky', 1, 'ks', 15000], ['Grafický návrh loga', 1, 'ks', 4500], ['Konzultace', 3, 'hod', 800], ['Hosting na rok', 12, 'měs', 120]];

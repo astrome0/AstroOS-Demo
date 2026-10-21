@@ -21,7 +21,7 @@ const POCASI = {
 </head>
 <body>
   <form id="hledani" class="radek">
-    <input id="mesto" placeholder="Město, třeba Brno" autocomplete="off">
+    <input id="mesto" placeholder="Město, třeba Plzeň" autocomplete="off">
     <button class="hlavni">Hledat</button>
   </form>
 
